@@ -1,0 +1,101 @@
+<div class="max-w-6xl mx-auto px-4 py-12">
+  <h1 class="text-4xl font-bold text-center mb-4">Find Your Match</h1>
+  <p class="text-gray-400 text-center mb-10 max-w-xl mx-auto">
+    Tell us what you love back home and where you're going — we'll find similar spots!
+  </p>
+
+  <!-- Search Form -->
+  <div class="max-w-3xl mx-auto mb-16">
+    <%= form_with url: search_find_matches_path, method: :post, id: "search-form", data: { turbo: false }, class: "p-8 bg-slate-900/50 border border-teal-500/20 rounded-3xl" do |f| %>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <!-- Home City -->
+        <div>
+          <label class="block text-sm font-medium text-gray-300 mb-2">🏠 Your Home City</label>
+          <%= f.text_field :home_city, 
+              placeholder: "e.g., Kansas City, MO", 
+              required: true,
+              class: "w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent" %>
+        </div>
+
+        <!-- New City -->
+        <div>
+          <label class="block text-sm font-medium text-gray-300 mb-2">✈️ Your New City</label>
+          <%= f.text_field :new_city, 
+              placeholder: "e.g., Austin, TX", 
+              required: true,
+              class: "w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent" %>
+        </div>
+      </div>
+
+      <!-- Category -->
+      <div class="mb-6">
+        <label class="block text-sm font-medium text-gray-300 mb-2">📂 Category</label>
+        <%= f.select :category, 
+            @categories.map { |c| ["#{c.icon} #{c.name}", c.yelp_alias] },
+            { include_blank: "Select a category..." },
+            class: "w-full px-4 py-3 bg-slate-800 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent" %>
+      </div>
+
+      <!-- Or search text -->
+      <div class="relative mb-6">
+        <div class="absolute inset-0 flex items-center">
+          <div class="w-full border-t border-white/10"></div>
+        </div>
+        <div class="relative flex justify-center text-sm">
+          <span class="px-4 bg-slate-900 text-gray-500">or search by name</span>
+        </div>
+      </div>
+
+      <!-- Search Query -->
+      <div class="mb-8">
+        <label class="block text-sm font-medium text-gray-300 mb-2">🔍 Place Name (optional)</label>
+        <%= f.text_field :query, 
+            placeholder: "e.g., Blue Bottle Coffee", 
+            class: "w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent" %>
+      </div>
+
+      <!-- Submit -->
+      <%= f.submit "Find Matches 🚀", id: "search-submit", class: "w-full py-4 bg-gradient-to-r from-teal-500 to-amber-500 text-slate-900 rounded-xl font-semibold text-lg cursor-pointer hover:opacity-90 transition-opacity shadow-lg shadow-teal-500/25 disabled:opacity-50 disabled:cursor-not-allowed" %>
+      
+      <!-- Loading Spinner (hidden by default) -->
+      <div id="search-loading" class="hidden mt-4">
+        <div class="flex items-center justify-center gap-3 py-3 px-4 bg-slate-800/50 rounded-xl border border-teal-500/20">
+          <svg class="animate-spin" style="width: 20px; height: 20px;" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle style="opacity: 0.25;" cx="12" cy="12" r="10" stroke="#2dd4bf" stroke-width="4"></circle>
+            <path style="opacity: 0.75;" fill="#2dd4bf" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          <span class="text-gray-300 text-sm">Searching for matches...</span>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Quick tip for uploading images -->
+  <div class="max-w-3xl mx-auto p-6 bg-teal-500/10 border border-teal-500/20 rounded-2xl text-center">
+    <p class="text-gray-300">
+      💡 <strong>Tip:</strong> Want to add your own places with photos? 
+      <%= link_to "Add a Place", new_place_path, class: "text-teal-400 hover:text-teal-300 underline" %> 
+      and upload your own images!
+    </p>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const form = document.getElementById('search-form');
+  const submitBtn = document.getElementById('search-submit');
+  const loadingDiv = document.getElementById('search-loading');
+  
+  if (form) {
+    form.addEventListener('submit', function() {
+      // Show loading spinner
+      loadingDiv.classList.remove('hidden');
+      
+      // Disable and update submit button
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Searching...';
+    });
+  }
+});
+</script>
+

@@ -1,0 +1,19 @@
+<div class="max-w-6xl mx-auto px-4 py-12">
+  <h1 class="text-4xl font-bold mb-2">🏠 My Home Places</h1>
+  <p class="text-gray-400 mb-10">Places you loved back home</p>
+
+  <% if @home_places.any? %>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <% @home_places.each do |place| %>
+        <%= render "places/card", place: place %>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="p-12 bg-white/5 border border-white/10 rounded-3xl text-center">
+      <div class="text-6xl mb-4">🏠</div>
+      <h2 class="text-2xl font-semibold mb-2">No home places yet</h2>
+      <p class="text-gray-400 mb-6">Add your favorite spots from your hometown</p>
+      <%= link_to "Add a Place", new_place_path, class: "inline-flex px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl font-semibold hover:opacity-90 transition-opacity" %>
+    </div>
+  <% end %>
+</div>

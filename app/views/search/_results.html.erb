@@ -1,0 +1,49 @@
+<% if @home_results && @match_results %>
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <!-- Home City Results -->
+    <div>
+      <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
+        <span class="w-10 h-10 bg-teal-500/20 rounded-xl flex items-center justify-center">🏠</span>
+        Places in <%= @home_city %>
+      </h2>
+      
+      <% if @home_results[:success] && @home_results[:results].any? %>
+        <div class="space-y-4">
+          <% @home_results[:results].first(5).each do |place| %>
+            <%= render "search/place_card", place: place, is_home: true, selected_category: selected_category %>
+          <% end %>
+        </div>
+      <% else %>
+        <div class="p-8 bg-slate-900/50 border border-white/10 rounded-2xl text-center">
+          <p class="text-gray-400">No places found. Try a different search.</p>
+          <% if @home_results[:error] %>
+            <p class="text-red-400 text-sm mt-2"><%= @home_results[:error] %></p>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- New City Matches -->
+    <div>
+      <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
+        <span class="w-10 h-10 bg-amber-500/20 rounded-xl flex items-center justify-center">✨</span>
+        Matches in <%= @new_city %>
+      </h2>
+      
+      <% if @match_results[:success] && @match_results[:results].any? %>
+        <div class="space-y-4">
+          <% @match_results[:results].first(5).each do |place| %>
+            <%= render "search/place_card", place: place, is_home: false, selected_category: selected_category %>
+          <% end %>
+        </div>
+      <% else %>
+        <div class="p-8 bg-slate-900/50 border border-white/10 rounded-2xl text-center">
+          <p class="text-gray-400">No matches found. Try a different category.</p>
+          <% if @match_results[:error] %>
+            <p class="text-red-400 text-sm mt-2"><%= @match_results[:error] %></p>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% end %>

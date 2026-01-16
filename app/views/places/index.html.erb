@@ -1,0 +1,28 @@
+<div class="max-w-6xl mx-auto px-4 py-12">
+  <div class="flex items-center justify-between mb-10">
+    <div>
+      <h1 class="text-4xl font-bold mb-2">Explore Places</h1>
+      <p class="text-gray-400">Discover places shared by the community</p>
+    </div>
+    <% if user_signed_in? %>
+      <%= link_to new_place_path, class: "px-5 py-2.5 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl font-semibold hover:opacity-90 transition-opacity" do %>
+        ➕ Add Place
+      <% end %>
+    <% end %>
+  </div>
+
+  <% if @places.any? %>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <% @places.each do |place| %>
+        <%= render "places/card", place: place %>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="p-12 bg-white/5 border border-white/10 rounded-3xl text-center">
+      <div class="text-6xl mb-4">📍</div>
+      <h2 class="text-2xl font-semibold mb-2">No places yet</h2>
+      <p class="text-gray-400 mb-6">Be the first to add a place!</p>
+      <%= link_to "Add a Place", new_place_path, class: "inline-flex px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl font-semibold hover:opacity-90 transition-opacity" %>
+    </div>
+  <% end %>
+</div>

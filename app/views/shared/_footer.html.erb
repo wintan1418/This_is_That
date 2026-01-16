@@ -1,0 +1,43 @@
+<footer class="bg-slate-900/50 border-t border-white/10 mt-20">
+  <div class="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <!-- Brand -->
+      <div class="col-span-1 md:col-span-2">
+        <div class="flex items-center gap-2 mb-4">
+          <div class="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center">
+            <span class="text-xl">🏠</span>
+          </div>
+          <span class="text-xl font-bold">This Is That</span>
+        </div>
+        <p class="text-gray-400 max-w-md">
+          Moving to a new city? Find places just like the ones you loved back home. We help you discover your new favorites.
+        </p>
+      </div>
+
+      <!-- Quick Links -->
+      <div>
+        <h3 class="font-semibold mb-4">Quick Links</h3>
+        <ul class="space-y-2 text-gray-400">
+          <li><%= link_to "Find Match", search_path, class: "hover:text-white transition-colors" %></li>
+          <li><%= link_to "Explore Places", places_path, class: "hover:text-white transition-colors" %></li>
+          <li><%= link_to "About", about_path, class: "hover:text-white transition-colors" %></li>
+        </ul>
+      </div>
+
+      <!-- Categories -->
+      <div>
+        <h3 class="font-semibold mb-4">Popular Categories</h3>
+        <ul class="space-y-2 text-gray-400">
+          <li>☕ Coffee & Tea</li>
+          <li>🍽️ Restaurants</li>
+          <li>🌳 Parks</li>
+          <li>💪 Gyms</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="border-t border-white/10 mt-8 pt-8 text-center text-gray-500 text-sm">
+      <p>&copy; <%= Time.current.year %> This Is That. Built with ❤️ using Rails 8 & TailwindCSS</p>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,53 @@
+<%# Only show links that are relevant to the current context %>
+
+<%- if controller_name != 'sessions' %>
+  <%= link_to "Log in", new_session_path(resource_name), class: "text-teal-400 hover:text-teal-300 transition-colors" %>
+<% end %>
+
+<%- if devise_mapping.registerable? && controller_name != 'registrations' %>
+  <span class="text-gray-600 mx-2">•</span>
+  <%= link_to "Sign up", new_registration_path(resource_name), class: "text-teal-400 hover:text-teal-300 transition-colors" %>
+<% end %>
+
+<%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
+  <span class="text-gray-600 mx-2">•</span>
+  <%= link_to "Forgot password?", new_password_path(resource_name), class: "text-gray-400 hover:text-white transition-colors" %>
+<% end %>
+
+<%# Only show OAuth buttons if providers are actually configured %>
+<%- if devise_mapping.omniauthable? && resource_class.omniauth_providers.present? %>
+  <div class="mt-6 pt-6 border-t border-white/10">
+    <p class="text-center text-gray-500 text-sm mb-4">Or continue with</p>
+    <div class="flex justify-center gap-4">
+      <%- resource_class.omniauth_providers.each do |provider| %>
+        <% provider_name = OmniAuth::Utils.camelize(provider) %>
+        <% 
+          # Only show the button if credentials are configured
+          show_button = case provider.to_s
+          when 'facebook'
+            ENV['FACEBOOK_APP_ID'].present? && ENV['FACEBOOK_APP_ID'] != 'your_facebook_app_id'
+          when 'google_oauth2'
+            ENV['GOOGLE_CLIENT_ID'].present? && ENV['GOOGLE_CLIENT_ID'] != 'your_google_client_id'
+          else
+            true
+          end
+        %>
+        <% if show_button %>
+          <%= button_to omniauth_authorize_path(resource_name, provider), 
+              data: { turbo: false },
+              class: "flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 transition-colors" do %>
+            <% if provider.to_s == 'facebook' %>
+              <svg class="w-5 h-5 text-blue-500" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+              Facebook
+            <% elsif provider.to_s == 'google_oauth2' %>
+              <svg class="w-5 h-5" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+              Google
+            <% else %>
+              <%= provider_name %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+<% end %>

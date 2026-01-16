@@ -1,0 +1,130 @@
+<!-- Hero Section -->
+<section class="relative overflow-hidden">
+  <!-- Animated background blobs -->
+  <div class="absolute top-20 left-10 w-72 h-72 bg-teal-500/20 rounded-full blur-3xl animate-pulse"></div>
+  <div class="absolute bottom-20 right-10 w-96 h-96 bg-amber-500/15 rounded-full blur-3xl animate-pulse" style="animation-delay: 1s;"></div>
+  <div class="absolute top-40 right-20 w-64 h-64 bg-coral-500/10 rounded-full blur-3xl animate-pulse" style="animation-delay: 2s;"></div>
+  
+  <div class="max-w-7xl mx-auto px-4 py-24 sm:px-6 lg:px-8 relative z-10">
+    <div class="text-center max-w-4xl mx-auto">
+      <!-- Badge -->
+      <div class="inline-flex items-center gap-2 px-4 py-2 bg-teal-500/10 rounded-full border border-teal-500/20 mb-8">
+        <span class="w-2 h-2 bg-teal-400 rounded-full animate-pulse"></span>
+        <span class="text-sm text-teal-200">Powered by SerpAPI & Yelp Data</span>
+      </div>
+
+      <!-- Headline -->
+      <h1 class="text-5xl md:text-7xl font-extrabold mb-6 leading-tight">
+        Find Places Like
+        <span class="bg-gradient-to-r from-teal-300 via-amber-300 to-coral-300 bg-clip-text text-transparent">
+          Home
+        </span>
+        <br>In Your New City
+      </h1>
+
+      <!-- Subheadline -->
+      <p class="text-xl text-gray-400 mb-10 max-w-2xl mx-auto">
+        Moving somewhere new? Discover restaurants, cafes, gyms, and more that match the vibe of your favorite spots back home.
+      </p>
+
+      <!-- CTA Buttons -->
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+        <%= link_to search_path, class: "group px-8 py-4 bg-gradient-to-r from-teal-500 to-amber-500 rounded-2xl font-semibold text-lg text-slate-900 hover:opacity-90 transition-all shadow-xl shadow-teal-500/25 hover:shadow-teal-500/40 flex items-center gap-2" do %>
+          🔍 Start Matching
+          <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+          </svg>
+        <% end %>
+        <%= link_to "Explore Places", places_path, class: "px-8 py-4 bg-white/5 border border-teal-500/20 rounded-2xl font-semibold text-lg hover:bg-teal-500/10 transition-all" %>
+      </div>
+
+      <!-- Stats -->
+      <div class="grid grid-cols-3 gap-8 max-w-lg mx-auto">
+        <div class="text-center">
+          <div class="text-3xl font-bold text-teal-400">20+</div>
+          <div class="text-sm text-gray-500">Categories</div>
+        </div>
+        <div class="text-center">
+          <div class="text-3xl font-bold text-amber-400">∞</div>
+          <div class="text-sm text-gray-500">Cities</div>
+        </div>
+        <div class="text-center">
+          <div class="text-3xl font-bold text-rose-400">5★</div>
+          <div class="text-sm text-gray-500">Matches</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- How It Works -->
+<section class="max-w-7xl mx-auto px-4 py-20 sm:px-6 lg:px-8">
+  <h2 class="text-3xl font-bold text-center mb-4">How It Works</h2>
+  <p class="text-gray-400 text-center mb-12 max-w-xl mx-auto">Three simple steps to find your new favorite spots</p>
+  
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <!-- Step 1 -->
+    <div class="relative group">
+      <div class="absolute inset-0 bg-gradient-to-br from-teal-500/20 to-teal-600/20 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+      <div class="relative p-8 bg-slate-900/50 border border-teal-500/20 rounded-3xl hover:border-teal-400/50 transition-colors">
+        <div class="w-14 h-14 bg-gradient-to-br from-teal-400 to-teal-600 rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-lg shadow-teal-500/25">
+          📍
+        </div>
+        <h3 class="text-xl font-semibold mb-3">Pick Your Home Spot</h3>
+        <p class="text-gray-400">Search for your favorite coffee shop, restaurant, or gym from your hometown.</p>
+      </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="relative group">
+      <div class="absolute inset-0 bg-gradient-to-br from-amber-500/20 to-amber-600/20 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+      <div class="relative p-8 bg-slate-900/50 border border-amber-500/20 rounded-3xl hover:border-amber-400/50 transition-colors">
+        <div class="w-14 h-14 bg-gradient-to-br from-amber-400 to-amber-600 rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-lg shadow-amber-500/25">
+          ✈️
+        </div>
+        <h3 class="text-xl font-semibold mb-3">Enter New City</h3>
+        <p class="text-gray-400">Tell us where you're moving or visiting. We'll search that area for similar vibes.</p>
+      </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="relative group">
+      <div class="absolute inset-0 bg-gradient-to-br from-rose-500/20 to-rose-600/20 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+      <div class="relative p-8 bg-slate-900/50 border border-rose-500/20 rounded-3xl hover:border-rose-400/50 transition-colors">
+        <div class="w-14 h-14 bg-gradient-to-br from-rose-400 to-rose-600 rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-lg shadow-rose-500/25">
+          ✨
+        </div>
+        <h3 class="text-xl font-semibold mb-3">Discover Matches</h3>
+        <p class="text-gray-400">Get a list of places that match your style. Save them, review them, love them!</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Categories -->
+<section class="max-w-7xl mx-auto px-4 py-20 sm:px-6 lg:px-8">
+  <h2 class="text-3xl font-bold text-center mb-4">Popular Categories</h2>
+  <p class="text-gray-400 text-center mb-12 max-w-xl mx-auto">Find your new go-to spots across these categories</p>
+  
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <% @categories.each do |category| %>
+      <%= link_to search_path(category: category.yelp_alias), class: "group p-6 bg-slate-900/50 border border-white/10 rounded-2xl hover:bg-teal-500/10 hover:border-teal-500/30 transition-all text-center" do %>
+        <div class="text-4xl mb-3"><%= category.icon %></div>
+        <div class="font-medium"><%= category.name %></div>
+      <% end %>
+    <% end %>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="max-w-4xl mx-auto px-4 py-20 sm:px-6 lg:px-8 text-center">
+  <div class="p-12 bg-gradient-to-br from-teal-500/10 to-amber-500/10 border border-teal-500/20 rounded-3xl">
+    <h2 class="text-3xl font-bold mb-4">Ready to Find Your New Favorites?</h2>
+    <p class="text-gray-400 mb-8">Sign up free and start discovering places that feel like home.</p>
+    <% unless user_signed_in? %>
+      <%= link_to "Get Started Free", new_user_registration_path, class: "inline-flex px-8 py-4 bg-gradient-to-r from-teal-500 to-amber-500 rounded-2xl font-semibold text-lg text-slate-900 hover:opacity-90 transition-all shadow-xl shadow-teal-500/25" %>
+    <% else %>
+      <%= link_to "Start Matching", search_path, class: "inline-flex px-8 py-4 bg-gradient-to-r from-teal-500 to-amber-500 rounded-2xl font-semibold text-lg text-slate-900 hover:opacity-90 transition-all shadow-xl shadow-teal-500/25" %>
+    <% end %>
+  </div>
+</section>

@@ -1,0 +1,24 @@
+<%= link_to place_path(place), class: "block p-4 bg-white/5 border border-white/10 rounded-xl hover:border-purple-500/30 transition-all group" do %>
+  <div class="flex gap-4">
+    <% if place.image_url.present? %>
+      <img src="<%= place.image_url %>" alt="<%= place.name %>" class="w-16 h-16 rounded-lg object-cover flex-shrink-0">
+    <% else %>
+      <div class="w-16 h-16 rounded-lg bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center flex-shrink-0">
+        <span class="text-xl"><%= place.category&.icon || "📍" %></span>
+      </div>
+    <% end %>
+    
+    <div class="flex-1 min-w-0">
+      <h3 class="font-semibold truncate group-hover:text-purple-400 transition-colors"><%= place.name %></h3>
+      <p class="text-sm text-gray-400 truncate"><%= place.city %></p>
+      <div class="flex items-center gap-2 mt-1 text-sm">
+        <% if place.rating %>
+          <span class="text-yellow-400">★ <%= place.rating %></span>
+        <% end %>
+        <% if place.category %>
+          <span class="text-gray-500"><%= place.category.name %></span>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>
