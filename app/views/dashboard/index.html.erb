@@ -1,34 +1,34 @@
 <div class="max-w-7xl mx-auto px-4 py-12">
-  <h1 class="text-4xl font-bold mb-2 text-theme-primary">Welcome back, <%= current_user.name || current_user.email.split('@').first %>! 👋</h1>
-  <p class="text-theme-secondary mb-10">Here's an overview of your saved places and matches.</p>
+  <h1 class="text-4xl font-bold mb-2">Welcome back, <%= current_user.name || current_user.email.split('@').first %>! 👋</h1>
+  <p class="text-gray-400 mb-10">Here's an overview of your saved places and matches.</p>
 
   <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
     <!-- Quick Actions -->
     <div class="lg:col-span-1">
-      <div class="p-6 theme-card rounded-2xl mb-6">
-        <h2 class="font-semibold mb-4 text-theme-primary">Quick Actions</h2>
+      <div class="p-6 bg-white/5 border border-white/10 rounded-2xl mb-6">
+        <h2 class="font-semibold mb-4">Quick Actions</h2>
         <div class="space-y-3">
-          <%= link_to search_path, class: "flex items-center gap-3 p-3 bg-gradient-to-r from-teal-500/20 to-amber-500/20 rounded-xl hover:from-teal-500/30 hover:to-amber-500/30 transition-colors text-theme-primary" do %>
+          <%= link_to search_path, class: "flex items-center gap-3 p-3 bg-gradient-to-r from-teal-500/20 to-amber-500/20 rounded-xl hover:from-teal-500/30 hover:to-amber-500/30 transition-colors" do %>
             <span class="text-xl">🔍</span>
             <span>Find New Matches</span>
           <% end %>
-          <%= link_to new_place_path, class: "flex items-center gap-3 p-3 bg-theme-card rounded-xl hover:bg-theme-card-hover transition-colors text-theme-secondary hover:text-theme-primary" do %>
+          <%= link_to new_place_path, class: "flex items-center gap-3 p-3 bg-white/5 rounded-xl hover:bg-white/10 transition-colors" do %>
             <span class="text-xl">➕</span>
             <span>Add a Place</span>
           <% end %>
-          <%= link_to my_places_path, class: "flex items-center gap-3 p-3 bg-theme-card rounded-xl hover:bg-theme-card-hover transition-colors text-theme-secondary hover:text-theme-primary" do %>
+          <%= link_to my_places_path, class: "flex items-center gap-3 p-3 bg-white/5 rounded-xl hover:bg-white/10 transition-colors" do %>
             <span class="text-xl">🏠</span>
             <span>My Home Places</span>
           <% end %>
-          <%= link_to my_matches_path, class: "flex items-center gap-3 p-3 bg-theme-card rounded-xl hover:bg-theme-card-hover transition-colors text-theme-secondary hover:text-theme-primary" do %>
+          <%= link_to my_matches_path, class: "flex items-center gap-3 p-3 bg-white/5 rounded-xl hover:bg-white/10 transition-colors" do %>
             <span class="text-xl">✨</span>
             <span>My Matches</span>
           <% end %>
-          <%= link_to favorites_path, class: "flex items-center gap-3 p-3 bg-theme-card rounded-xl hover:bg-theme-card-hover transition-colors text-theme-secondary hover:text-theme-primary" do %>
+          <%= link_to favorites_path, class: "flex items-center gap-3 p-3 bg-white/5 rounded-xl hover:bg-white/10 transition-colors" do %>
             <span class="text-xl">⭐</span>
             <span>Favorites</span>
           <% end %>
-          <%= link_to settings_path, class: "flex items-center gap-3 p-3 bg-theme-card rounded-xl hover:bg-theme-card-hover transition-colors text-theme-secondary hover:text-theme-primary" do %>
+          <%= link_to settings_path, class: "flex items-center gap-3 p-3 bg-white/5 rounded-xl hover:bg-white/10 transition-colors" do %>
             <span class="text-xl">⚙️</span>
             <span>Settings</span>
           <% end %>
@@ -36,20 +36,20 @@
       </div>
 
       <!-- Stats -->
-      <div class="p-6 theme-card rounded-2xl">
-        <h2 class="font-semibold mb-4 text-theme-primary">Your Stats</h2>
+      <div class="p-6 bg-white/5 border border-white/10 rounded-2xl">
+        <h2 class="font-semibold mb-4">Your Stats</h2>
         <div class="grid grid-cols-2 gap-4">
-          <div class="text-center p-4 bg-theme-card rounded-xl">
-            <div class="text-2xl font-bold text-teal-500"><%= current_user.home_places.count %></div>
-            <div class="text-sm text-theme-muted">Home Places</div>
+          <div class="text-center p-4 bg-white/5 rounded-xl">
+            <div class="text-2xl font-bold text-teal-400"><%= current_user.home_places.count %></div>
+            <div class="text-sm text-gray-500">Home Places</div>
           </div>
-          <div class="text-center p-4 bg-theme-card rounded-xl">
-            <div class="text-2xl font-bold text-amber-500"><%= current_user.matched_places.count %></div>
-            <div class="text-sm text-theme-muted">Matches</div>
+          <div class="text-center p-4 bg-white/5 rounded-xl">
+            <div class="text-2xl font-bold text-amber-400"><%= current_user.matched_places.count %></div>
+            <div class="text-sm text-gray-500">Matches</div>
           </div>
-          <div class="text-center p-4 bg-theme-card rounded-xl col-span-2">
-            <div class="text-2xl font-bold text-rose-500"><%= current_user.reviews.count %></div>
-            <div class="text-sm text-theme-muted">Reviews Written</div>
+          <div class="text-center p-4 bg-white/5 rounded-xl col-span-2">
+            <div class="text-2xl font-bold text-rose-400"><%= current_user.reviews.count %></div>
+            <div class="text-sm text-gray-500">Reviews Written</div>
           </div>
         </div>
       </div>
@@ -60,9 +60,9 @@
       <!-- Home Places -->
       <div class="mb-8">
         <div class="flex items-center justify-between mb-4">
-          <h2 class="text-xl font-semibold text-theme-primary">🏠 Your Home Places</h2>
+          <h2 class="text-xl font-semibold">🏠 Your Home Places</h2>
           <% if @total_home_places > 6 %>
-            <%= link_to "View All", my_places_path, class: "text-theme-accent hover:underline text-sm" %>
+            <%= link_to "View All", my_places_path, class: "text-teal-400 hover:text-teal-300 text-sm" %>
           <% end %>
         </div>
         
@@ -73,9 +73,9 @@
             <% end %>
           </div>
         <% else %>
-          <div class="p-8 theme-card rounded-2xl text-center">
-            <p class="text-theme-secondary mb-4">No home places yet. Add your favorite spots!</p>
-            <%= link_to "Add a Place", new_place_path, class: "text-theme-accent hover:underline" %>
+          <div class="p-8 bg-white/5 border border-white/10 rounded-2xl text-center">
+            <p class="text-gray-400 mb-4">No home places yet. Add your favorite spots!</p>
+            <%= link_to "Add a Place", new_place_path, class: "text-teal-400 hover:underline" %>
           </div>
         <% end %>
       </div>
@@ -83,9 +83,9 @@
       <!-- Matched Places -->
       <div>
         <div class="flex items-center justify-between mb-4">
-          <h2 class="text-xl font-semibold text-theme-primary">✨ Your Matches</h2>
+          <h2 class="text-xl font-semibold">✨ Your Matches</h2>
           <% if @total_matched_places > 6 %>
-            <%= link_to "View All", my_matches_path, class: "text-theme-accent hover:underline text-sm" %>
+            <%= link_to "View All", my_matches_path, class: "text-teal-400 hover:text-teal-300 text-sm" %>
           <% end %>
         </div>
         
@@ -96,9 +96,9 @@
             <% end %>
           </div>
         <% else %>
-          <div class="p-8 theme-card rounded-2xl text-center">
-            <p class="text-theme-secondary mb-4">No matches saved yet. Start searching!</p>
-            <%= link_to "Find Matches", search_path, class: "text-theme-accent hover:underline" %>
+          <div class="p-8 bg-white/5 border border-white/10 rounded-2xl text-center">
+            <p class="text-gray-400 mb-4">No matches saved yet. Start searching!</p>
+            <%= link_to "Find Matches", search_path, class: "text-teal-400 hover:underline" %>
           </div>
         <% end %>
       </div>

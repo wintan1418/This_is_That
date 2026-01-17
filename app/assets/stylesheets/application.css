@@ -1,205 +1,22 @@
 /*
  * This Is That - Custom Styles
- * Theme system with CSS variables for light/dark mode
+ * Refined dark theme with accent colors
  */
 
 /* ========================================
-   CSS Variables - Theme System
+   Base Theme - Dark Mode Only
    ======================================== */
 
 :root {
-  /* Light Mode (Default for better accessibility) */
-  --bg-primary: #f8fafc;
-  --bg-secondary: #ffffff;
-  --bg-tertiary: #f1f5f9;
-  --bg-card: #ffffff;
-  --bg-card-hover: #f8fafc;
-  
-  --text-primary: #0f172a;
-  --text-secondary: #475569;
-  --text-muted: #94a3b8;
-  
-  --border-color: #e2e8f0;
-  --border-hover: #cbd5e1;
-  
-  --accent-primary: #0d9488;
-  --accent-secondary: #f59e0b;
-  --accent-gradient: linear-gradient(135deg, #0d9488 0%, #f59e0b 100%);
-  
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  
-  --nav-bg: rgba(255, 255, 255, 0.9);
-  --nav-border: rgba(14, 165, 156, 0.1);
-}
-
-/* Dark Mode */
-.dark-mode {
-  --bg-primary: #0f172a;
-  --bg-secondary: #1e293b;
-  --bg-tertiary: #334155;
-  --bg-card: rgba(255, 255, 255, 0.05);
-  --bg-card-hover: rgba(255, 255, 255, 0.1);
-  
+  --accent-teal: #2dd4bf;
+  --accent-amber: #fbbf24;
+  --accent-rose: #fb7185;
   --text-primary: #f8fafc;
-  --text-secondary: #cbd5e1;
+  --text-secondary: #94a3b8;
   --text-muted: #64748b;
-  
+  --bg-dark: #0f172a;
+  --bg-card: rgba(255, 255, 255, 0.05);
   --border-color: rgba(255, 255, 255, 0.1);
-  --border-hover: rgba(14, 165, 156, 0.3);
-  
-  --accent-primary: #2dd4bf;
-  --accent-secondary: #fbbf24;
-  --accent-gradient: linear-gradient(135deg, #2dd4bf 0%, #fbbf24 100%);
-  
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
-  
-  --nav-bg: rgba(15, 23, 42, 0.9);
-  --nav-border: rgba(45, 212, 191, 0.1);
-}
-
-/* ========================================
-   Base Styles
-   ======================================== */
-
-body {
-  background: var(--bg-primary);
-  color: var(--text-primary);
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-/* Override Tailwind dark backgrounds for theme support */
-.dark-mode body {
-  background: linear-gradient(135deg, #0f172a 0%, #134e4a 50%, #0f172a 100%);
-  background-attachment: fixed;
-}
-
-:root body {
-  background: linear-gradient(135deg, #f8fafc 0%, #e0f2fe 50%, #f0fdf4 100%);
-  background-attachment: fixed;
-}
-
-/* ========================================
-   Card Styles
-   ======================================== */
-
-.theme-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: 1rem;
-  transition: all 0.2s ease;
-}
-
-.theme-card:hover {
-  background: var(--bg-card-hover);
-  border-color: var(--border-hover);
-  box-shadow: var(--shadow-md);
-}
-
-/* ========================================
-   Navigation
-   ======================================== */
-
-.theme-nav {
-  background: var(--nav-bg);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--nav-border);
-}
-
-/* ========================================
-   Buttons
-   ======================================== */
-
-.btn-primary {
-  background: var(--accent-gradient);
-  color: #0f172a;
-  font-weight: 600;
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.75rem;
-  transition: all 0.2s ease;
-  box-shadow: 0 4px 14px rgba(13, 148, 136, 0.3);
-}
-
-.btn-primary:hover {
-  opacity: 0.9;
-  transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(13, 148, 136, 0.4);
-}
-
-.btn-secondary {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  color: var(--text-primary);
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.75rem;
-  transition: all 0.2s ease;
-}
-
-.btn-secondary:hover {
-  background: var(--bg-card-hover);
-  border-color: var(--accent-primary);
-}
-
-/* ========================================
-   Form Inputs
-   ======================================== */
-
-.theme-input {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  color: var(--text-primary);
-  padding: 0.75rem 1rem;
-  border-radius: 0.75rem;
-  transition: all 0.2s ease;
-}
-
-.theme-input:focus {
-  outline: none;
-  border-color: var(--accent-primary);
-  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.1);
-}
-
-.theme-input::placeholder {
-  color: var(--text-muted);
-}
-
-/* ========================================
-   Text Colors
-   ======================================== */
-
-.text-theme-primary {
-  color: var(--text-primary);
-}
-
-.text-theme-secondary {
-  color: var(--text-secondary);
-}
-
-.text-theme-muted {
-  color: var(--text-muted);
-}
-
-.text-theme-accent {
-  color: var(--accent-primary);
-}
-
-/* ========================================
-   Background Colors
-   ======================================== */
-
-.bg-theme-primary {
-  background: var(--bg-primary);
-}
-
-.bg-theme-secondary {
-  background: var(--bg-secondary);
-}
-
-.bg-theme-card {
-  background: var(--bg-card);
 }
 
 /* ========================================
@@ -207,36 +24,31 @@ body {
    ======================================== */
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 20px rgba(13, 148, 136, 0.3); }
-  50% { box-shadow: 0 0 40px rgba(13, 148, 136, 0.5); }
+
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(45, 212, 191, 0.3);
+  }
+
+  50% {
+    box-shadow: 0 0 40px rgba(45, 212, 191, 0.5);
+  }
 }
 
 .animate-fade-in {
-  animation: fadeIn 0.3s ease-out;
-}
-
-.animate-glow {
-  animation: pulse-glow 2s ease-in-out infinite;
-}
-
-/* ========================================
-   Glassmorphism Effects
-   ======================================== */
-
-.glass {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.dark-mode .glass {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  animation: fadeIn 0.5s ease-out forwards;
 }
 
 /* ========================================
@@ -244,14 +56,14 @@ body {
    ======================================== */
 
 .gradient-text {
-  background: var(--accent-gradient);
+  background: linear-gradient(135deg, #2dd4bf 0%, #fbbf24 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 /* ========================================
-   Theme Toggle Button
+   Theme Toggle (simplified)
    ======================================== */
 
 .theme-toggle {
@@ -261,20 +73,22 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   cursor: pointer;
   transition: all 0.2s ease;
   font-size: 1.25rem;
+  color: #94a3b8;
 }
 
 .theme-toggle:hover {
-  background: var(--bg-card-hover);
-  border-color: var(--accent-primary);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(45, 212, 191, 0.3);
+  color: #2dd4bf;
 }
 
 /* ========================================
-   Scrollbar Styling
+   Custom Scrollbar
    ======================================== */
 
 ::-webkit-scrollbar {
@@ -283,25 +97,25 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--bg-tertiary);
+  background: #1e293b;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--text-muted);
+  background: #475569;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--text-secondary);
+  background: #64748b;
 }
 
 /* ========================================
-   Selection Colors
+   Selection
    ======================================== */
 
 ::selection {
-  background: rgba(13, 148, 136, 0.3);
-  color: var(--text-primary);
+  background: rgba(45, 212, 191, 0.3);
+  color: #f8fafc;
 }
 
 /* ========================================
@@ -309,17 +123,6 @@ body {
    ======================================== */
 
 :focus-visible {
-  outline: 2px solid var(--accent-primary);
+  outline: 2px solid #2dd4bf;
   outline-offset: 2px;
-}
-
-/* ========================================
-   Print Styles
-   ======================================== */
-
-@media print {
-  body {
-    background: white;
-    color: black;
-  }
 }
