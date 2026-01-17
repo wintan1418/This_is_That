@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_01_17_162002) do
+ActiveRecord::Schema[8.0].define(version: 2026_01_17_163000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -48,6 +48,20 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_17_162002) do
     t.string "icon"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "notifications", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "title", null: false
+    t.text "message"
+    t.string "notification_type", default: "info"
+    t.string "link"
+    t.boolean "read", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["created_at"], name: "index_notifications_on_created_at"
+    t.index ["user_id", "read"], name: "index_notifications_on_user_id_and_read"
+    t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
   create_table "places", force: :cascade do |t|
@@ -129,6 +143,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_17_162002) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "notifications", "users"
   add_foreign_key "places", "categories"
   add_foreign_key "places", "users"
   add_foreign_key "reviews", "places"
