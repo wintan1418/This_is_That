@@ -1,0 +1,64 @@
+<div class="max-w-3xl mx-auto px-4 py-12">
+  <!-- Back Link -->
+  <a href="#" onclick="history.back(); return false;" class="text-gray-400 hover:text-white mb-6 inline-block transition-colors">← Back</a>
+  
+  <h1 class="text-4xl font-bold mb-2">⚙️ Settings</h1>
+  <p class="text-gray-400 mb-10">Manage your account and preferences</p>
+
+  <%= form_with model: @user, url: settings_path, method: :patch, class: "space-y-8" do |f| %>
+    <!-- Profile Section -->
+    <div class="p-6 bg-white/5 border border-white/10 rounded-2xl">
+      <h2 class="font-semibold mb-6">Profile</h2>
+      
+      <div class="space-y-4">
+        <div>
+          <label class="block text-sm text-gray-400 mb-2">Name</label>
+          <%= f.text_field :name, class: "w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent" %>
+        </div>
+        
+        <div>
+          <label class="block text-sm text-gray-400 mb-2">Email</label>
+          <%= f.email_field :email, class: "w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent" %>
+        </div>
+        
+        <div>
+          <label class="block text-sm text-gray-400 mb-2">Avatar URL</label>
+          <%= f.text_field :avatar, placeholder: "https://example.com/avatar.jpg", class: "w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent" %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Preferences Section -->
+    <div class="p-6 bg-white/5 border border-white/10 rounded-2xl">
+      <h2 class="font-semibold mb-6">Preferences</h2>
+      
+      <div class="space-y-4">
+        <label class="flex items-center gap-3 cursor-pointer">
+          <%= f.check_box :email_notifications, class: "w-5 h-5 rounded bg-white/10 border-white/20 text-teal-500 focus:ring-teal-500" %>
+          <span>Email notifications for new matches</span>
+        </label>
+        
+        <div>
+          <label class="block text-sm text-gray-400 mb-2">Theme</label>
+          <%= f.select :theme, [["Dark", "dark"], ["Light", "light"]], {}, class: "w-full px-4 py-3 bg-slate-800 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-teal-500" %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Save Button -->
+    <div class="flex justify-end">
+      <%= f.submit "Save Changes", class: "px-6 py-3 bg-gradient-to-r from-teal-500 to-amber-500 rounded-xl font-semibold text-slate-900 hover:opacity-90 transition-opacity cursor-pointer" %>
+    </div>
+  <% end %>
+
+  <!-- Danger Zone -->
+  <div class="mt-12 p-6 bg-red-500/10 border border-red-500/20 rounded-2xl">
+    <h2 class="font-semibold text-red-400 mb-4">⚠️ Danger Zone</h2>
+    <p class="text-gray-400 mb-4">Once you delete your account, there is no going back. All your data will be permanently removed.</p>
+    
+    <%= button_to "Delete My Account", settings_account_path, 
+        method: :delete, 
+        data: { turbo_confirm: "Are you absolutely sure? This action cannot be undone." },
+        class: "px-6 py-3 bg-red-500/20 border border-red-500/30 rounded-xl text-red-400 hover:bg-red-500/30 transition-colors cursor-pointer" %>
+  </div>
+</div>

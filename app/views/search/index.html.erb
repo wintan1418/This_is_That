@@ -66,12 +66,35 @@
   </div>
 
   <!-- Quick tip for uploading images -->
-  <div class="max-w-3xl mx-auto p-6 bg-teal-500/10 border border-teal-500/20 rounded-2xl text-center">
+  <div class="max-w-3xl mx-auto p-6 bg-teal-500/10 border border-teal-500/20 rounded-2xl text-center mb-8">
     <p class="text-gray-300">
       💡 <strong>Tip:</strong> Want to add your own places with photos? 
       <%= link_to "Add a Place", new_place_path, class: "text-teal-400 hover:text-teal-300 underline" %> 
       and upload your own images!
     </p>
   </div>
+  
+  <!-- Recent Searches -->
+  <% if @recent_searches&.any? %>
+    <div class="max-w-3xl mx-auto">
+      <h2 class="text-lg font-semibold mb-4 text-gray-400">🕒 Recent Searches</h2>
+      <div class="flex flex-wrap gap-2">
+        <% @recent_searches.each do |search| %>
+          <%= form_with url: search_find_matches_path, method: :post, data: { turbo: false }, class: "inline" do %>
+            <input type="hidden" name="home_city" value="<%= search.home_city %>">
+            <input type="hidden" name="new_city" value="<%= search.new_city %>">
+            <input type="hidden" name="category" value="<%= search.category %>">
+            <input type="hidden" name="query" value="<%= search.query %>">
+            <button type="submit" class="px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-sm text-gray-300 hover:bg-white/10 hover:border-teal-500/30 transition-all">
+              <%= search.home_city %> → <%= search.new_city %>
+              <% if search.category.present? %>
+                <span class="text-gray-500">(<%= search.category %>)</span>
+              <% end %>
+            </button>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
 </div>
 

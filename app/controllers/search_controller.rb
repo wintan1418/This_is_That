@@ -4,6 +4,7 @@ class SearchController < ApplicationController
 
   def index
     @categories = Category.alphabetical
+    @recent_searches = current_user.search_histories.recent.limit(5)
   end
 
   # POST /search/find_matches
@@ -14,6 +15,14 @@ class SearchController < ApplicationController
     @new_city = params[:new_city]
     @category = params[:category]
     @categories = Category.alphabetical
+    
+    # Save to search history
+    current_user.search_histories.create(
+      home_city: @home_city,
+      new_city: @new_city,
+      category: @category,
+      query: @query
+    )
     
     # Resolve the category object for saving matches
     @selected_category = if @category.present?

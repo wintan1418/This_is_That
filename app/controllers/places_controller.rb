@@ -52,7 +52,7 @@ class PlacesController < ApplicationController
     place_data = params.require(:place).permit(
       :yelp_id, :name, :address, :city, :state, :country,
       :latitude, :longitude, :image_url, :rating, :price,
-      :phone, :url, :category_id
+      :phone, :url, :category_id, :yelp_reviews_count
     )
 
     @place = current_user.places.build(place_data)
@@ -80,6 +80,22 @@ class PlacesController < ApplicationController
           )
         }
       end
+    end
+  end
+
+  def toggle_favorite
+    @place = current_user.places.find(params[:id])
+    @place.update(is_favorite: !@place.is_favorite)
+    
+    respond_to do |format|
+      format.html { redirect_back fallback_location: @place }
+      format.turbo_stream {
+        render turbo_stream: turbo_stream.replace(
+          "favorite_button_#{@place.id}",
+          partial: "places/favorite_button",
+          locals: { place: @place }
+        )
+      }
     end
   end
 

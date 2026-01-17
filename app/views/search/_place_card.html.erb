@@ -56,6 +56,7 @@
           <input type="hidden" name="place[price]" value="<%= place[:price] %>">
           <input type="hidden" name="place[phone]" value="<%= place[:phone] %>">
           <input type="hidden" name="place[url]" value="<%= place[:url] %>">
+          <input type="hidden" name="place[yelp_reviews_count]" value="<%= place[:reviews_count] %>">
           <input type="hidden" name="place[category_id]" value="<%= selected_category&.id %>">
 
           <button type="submit" data-loading-target="button" class="inline-flex items-center gap-2 px-3 py-1.5 text-sm bg-gradient-to-r from-teal-500 to-amber-500 text-slate-900 font-medium rounded-lg hover:opacity-90 transition-opacity">

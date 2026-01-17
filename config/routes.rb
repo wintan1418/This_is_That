@@ -15,9 +15,15 @@ Rails.application.routes.draw do
 
   # Places
   resources :places do
-    resources :reviews, only: [:create, :destroy]
+    resources :reviews, only: [:create, :destroy] do
+      member do
+        post :upvote
+        post :downvote
+      end
+    end
     member do
       post :save_match  # Save a matched place
+      post :toggle_favorite  # Toggle favorite status
     end
   end
 
@@ -29,4 +35,13 @@ Rails.application.routes.draw do
   get "dashboard", to: "dashboard#index"
   get "my_places", to: "dashboard#my_places"
   get "my_matches", to: "dashboard#my_matches"
+  get "favorites", to: "dashboard#favorites"
+
+  # Settings
+  get "settings", to: "settings#profile"
+  patch "settings", to: "settings#update"
+  delete "settings/account", to: "settings#destroy_account"
+
+  # Explore (public places)
+  get "explore", to: "explore#index"
 end

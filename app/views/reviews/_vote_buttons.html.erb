@@ -1,0 +1,27 @@
+<turbo-frame id="review_votes_<%= review.id %>">
+  <div class="flex items-center gap-2">
+    <% user_vote = user_signed_in? ? review.voted_by?(current_user) : nil %>
+    
+    <!-- Upvote -->
+    <%= button_to upvote_place_review_path(place, review), 
+        method: :post, 
+        class: "flex items-center gap-1 px-2 py-1 rounded-lg transition-colors #{user_vote == 1 ? 'bg-green-500/20 text-green-400' : 'bg-white/5 text-gray-400 hover:bg-green-500/10 hover:text-green-400'}",
+        data: { turbo_frame: "review_votes_#{review.id}" } do %>
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/>
+      </svg>
+      <span class="text-sm font-medium"><%= review.upvotes_count %></span>
+    <% end %>
+    
+    <!-- Downvote -->
+    <%= button_to downvote_place_review_path(place, review), 
+        method: :post, 
+        class: "flex items-center gap-1 px-2 py-1 rounded-lg transition-colors #{user_vote == -1 ? 'bg-red-500/20 text-red-400' : 'bg-white/5 text-gray-400 hover:bg-red-500/10 hover:text-red-400'}",
+        data: { turbo_frame: "review_votes_#{review.id}" } do %>
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+      </svg>
+      <span class="text-sm font-medium"><%= review.downvotes_count %></span>
+    <% end %>
+  </div>
+</turbo-frame>

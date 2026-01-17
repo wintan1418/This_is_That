@@ -8,6 +8,8 @@ class User < ApplicationRecord
   # Associations
   has_many :places, dependent: :destroy
   has_many :reviews, dependent: :destroy
+  has_many :votes, dependent: :destroy
+  has_many :search_histories, dependent: :destroy
 
   # Validations
   validates :name, length: { maximum: 100 }

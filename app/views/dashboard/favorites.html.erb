@@ -1,0 +1,22 @@
+<div class="max-w-6xl mx-auto px-4 py-12">
+  <!-- Back Link -->
+  <a href="#" onclick="history.back(); return false;" class="text-gray-400 hover:text-white mb-6 inline-block transition-colors">← Back</a>
+  
+  <h1 class="text-4xl font-bold mb-2">⭐ Favorites</h1>
+  <p class="text-gray-400 mb-10">Your top picks for quick access</p>
+
+  <% if @favorite_places.any? %>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <% @favorite_places.each do |place| %>
+        <%= render "places/card", place: place %>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="p-12 bg-white/5 border border-white/10 rounded-3xl text-center">
+      <div class="text-6xl mb-4">⭐</div>
+      <h2 class="text-2xl font-semibold mb-2">No favorites yet</h2>
+      <p class="text-gray-400 mb-6">Click the star on any place to add it to your favorites!</p>
+      <%= link_to "Browse My Places", my_places_path, class: "inline-flex px-6 py-3 bg-gradient-to-r from-teal-500 to-amber-500 rounded-xl font-semibold text-slate-900 hover:opacity-90 transition-opacity" %>
+    </div>
+  <% end %>
+</div>

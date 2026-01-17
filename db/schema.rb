@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_01_16_183226) do
+ActiveRecord::Schema[8.0].define(version: 2026_01_17_162002) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -69,6 +69,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_16_183226) do
     t.bigint "category_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "yelp_reviews_count"
+    t.boolean "is_favorite", default: false
     t.index ["category_id"], name: "index_places_on_category_id"
     t.index ["user_id"], name: "index_places_on_user_id"
   end
@@ -84,6 +86,18 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_16_183226) do
     t.index ["user_id"], name: "index_reviews_on_user_id"
   end
 
+  create_table "search_histories", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "home_city"
+    t.string "new_city"
+    t.string "category"
+    t.string "query"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id", "created_at"], name: "index_search_histories_on_user_id_and_created_at"
+    t.index ["user_id"], name: "index_search_histories_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -96,8 +110,21 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_16_183226) do
     t.string "uid"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "email_notifications", default: true
+    t.string "theme", default: "dark"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  create_table "votes", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "review_id", null: false
+    t.integer "value", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["review_id"], name: "index_votes_on_review_id"
+    t.index ["user_id", "review_id"], name: "index_votes_on_user_id_and_review_id", unique: true
+    t.index ["user_id"], name: "index_votes_on_user_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
@@ -106,4 +133,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_16_183226) do
   add_foreign_key "places", "users"
   add_foreign_key "reviews", "places"
   add_foreign_key "reviews", "users"
+  add_foreign_key "search_histories", "users"
+  add_foreign_key "votes", "reviews"
+  add_foreign_key "votes", "users"
 end

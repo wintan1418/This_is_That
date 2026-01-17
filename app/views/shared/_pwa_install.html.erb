@@ -1,0 +1,27 @@
+<!-- PWA Install Banner -->
+<div data-controller="pwa-install" class="fixed bottom-0 left-0 right-0 z-50">
+  <div data-pwa-install-target="banner" class="hidden">
+    <div class="max-w-xl mx-auto p-4">
+      <div class="p-4 bg-gradient-to-r from-teal-500/20 to-amber-500/20 backdrop-blur-xl border border-teal-500/30 rounded-2xl shadow-xl flex items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 bg-gradient-to-br from-teal-400 to-amber-400 rounded-xl flex items-center justify-center text-2xl shadow-lg">
+            🏠
+          </div>
+          <div>
+            <div class="font-semibold text-white">Install This Is That</div>
+            <div class="text-sm text-gray-300">Add to home screen for quick access</div>
+          </div>
+        </div>
+        
+        <div class="flex items-center gap-2">
+          <button data-action="click->pwa-install#dismiss" class="px-3 py-2 text-gray-400 hover:text-white transition-colors">
+            Later
+          </button>
+          <button data-action="click->pwa-install#install" class="px-4 py-2 bg-gradient-to-r from-teal-500 to-amber-500 text-slate-900 font-semibold rounded-xl hover:opacity-90 transition-opacity">
+            Install
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

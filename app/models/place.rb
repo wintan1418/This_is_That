@@ -29,6 +29,8 @@ class Place < ApplicationRecord
   scope :matched_places, -> { where(is_home_place: false) }
   scope :by_category, ->(category) { where(category: category) }
   scope :in_city, ->(city) { where("LOWER(city) = ?", city.downcase) }
+  scope :favorites, -> { where(is_favorite: true) }
+  scope :public_places, -> { order(created_at: :desc).limit(20) }
 
   # Full address for geocoding
   def full_address
