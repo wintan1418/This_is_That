@@ -29,6 +29,7 @@ Rails.application.routes.draw do
 
   # Search / Matching
   get "search", to: "search#index"
+  get "search/find_matches", to: redirect("/search")  # Handle refresh on results page
   post "search/find_matches", to: "search#find_matches"
 
   # User dashboard

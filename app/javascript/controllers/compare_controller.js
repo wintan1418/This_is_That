@@ -1,57 +1,75 @@
 import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="compare"
-// Handles side-by-side place comparison modal
 export default class extends Controller {
   static targets = ["modal", "homePlace", "matchPlace"]
   
-  homeData = null
-  matchData = null
+  connect() {
+    this.homeData = null
+    this.matchData = null
+  }
 
   selectHome(event) {
-    const card = event.currentTarget.closest("[data-place]")
-    this.homeData = JSON.parse(card.dataset.place)
-    this.updateDisplay()
-    this.highlightSelected(card, "home")
+    const button = event.currentTarget
+    const placeData = button.dataset.place
+    
+    if (placeData) {
+      this.homeData = JSON.parse(placeData)
+      this.updateHomeDisplay()
+      
+      // Visual feedback - update button
+      document.querySelectorAll('.select-home-btn').forEach(btn => {
+        btn.classList.remove('bg-teal-500', 'text-white')
+        btn.classList.add('bg-teal-500/20', 'text-teal-400')
+        btn.textContent = '✓ Select for Compare'
+      })
+      button.classList.remove('bg-teal-500/20', 'text-teal-400')
+      button.classList.add('bg-teal-500', 'text-white')
+      button.textContent = '✓ Selected!'
+    }
   }
 
   selectMatch(event) {
-    const card = event.currentTarget.closest("[data-place]")
-    this.matchData = JSON.parse(card.dataset.place)
-    this.updateDisplay()
-    this.highlightSelected(card, "match")
-  }
-
-  highlightSelected(card, type) {
-    // Remove previous selection of same type
-    document.querySelectorAll(`[data-selected="${type}"]`).forEach(el => {
-      el.removeAttribute("data-selected")
-      el.classList.remove("ring-2", type === "home" ? "ring-teal-500" : "ring-amber-500")
-    })
+    const button = event.currentTarget
+    const placeData = button.dataset.place
     
-    // Add selection to current card
-    card.setAttribute("data-selected", type)
-    card.classList.add("ring-2", type === "home" ? "ring-teal-500" : "ring-amber-500")
+    if (placeData) {
+      this.matchData = JSON.parse(placeData)
+      this.updateMatchDisplay()
+      
+      // Visual feedback - update button
+      document.querySelectorAll('.select-match-btn').forEach(btn => {
+        btn.classList.remove('bg-amber-500', 'text-white')
+        btn.classList.add('bg-amber-500/20', 'text-amber-400')
+        btn.textContent = '✓ Select for Compare'
+      })
+      button.classList.remove('bg-amber-500/20', 'text-amber-400')
+      button.classList.add('bg-amber-500', 'text-white')
+      button.textContent = '✓ Selected!'
+    }
   }
 
-  updateDisplay() {
-    if (this.hasHomePlaceTarget) {
-      this.homePlaceTarget.innerHTML = this.homeData ? this.renderPlace(this.homeData, "home") : this.renderEmpty("home")
-    }
-    if (this.hasMatchPlaceTarget) {
-      this.matchPlaceTarget.innerHTML = this.matchData ? this.renderPlace(this.matchData, "match") : this.renderEmpty("match")
+  updateHomeDisplay() {
+    if (this.hasHomePlaceTarget && this.homeData) {
+      this.homePlaceTarget.innerHTML = this.renderPlace(this.homeData)
     }
   }
 
-  renderPlace(place, type) {
-    const color = type === "home" ? "teal" : "amber"
+  updateMatchDisplay() {
+    if (this.hasMatchPlaceTarget && this.matchData) {
+      this.matchPlaceTarget.innerHTML = this.renderPlace(this.matchData)
+    }
+  }
+
+  renderPlace(place) {
+    const imageHtml = place.image_url 
+      ? `<img src="${place.image_url}" alt="${place.name}" class="w-full h-40 rounded-xl object-cover mb-4">`
+      : `<div class="w-full h-40 rounded-xl bg-gradient-to-br from-teal-500/20 to-amber-500/20 flex items-center justify-center mb-4 text-4xl">📍</div>`
+    
     return `
       <div class="text-center">
-        ${place.image_url 
-          ? `<img src="${place.image_url}" alt="${place.name}" class="w-full h-40 rounded-xl object-cover mb-4">`
-          : `<div class="w-full h-40 rounded-xl bg-gradient-to-br from-${color}-500/20 to-${color}-600/20 flex items-center justify-center mb-4 text-4xl">📍</div>`
-        }
-        <h3 class="text-xl font-bold mb-2">${place.name}</h3>
+        ${imageHtml}
+        <h3 class="text-xl font-bold mb-2">${place.name || 'Unknown'}</h3>
         <p class="text-gray-400 text-sm mb-4">${place.city || place.address || ''}</p>
         
         <div class="grid grid-cols-2 gap-3 text-sm">
@@ -64,7 +82,7 @@ export default class extends Controller {
             <div class="text-gray-500">Price</div>
           </div>
           <div class="p-3 bg-white/5 rounded-lg col-span-2">
-            <div class="text-${color}-400 text-lg">${place.reviews_count || 0}</div>
+            <div class="text-purple-400 text-lg">${place.reviews_count || 0}</div>
             <div class="text-gray-500">Reviews</div>
           </div>
         </div>
@@ -72,18 +90,8 @@ export default class extends Controller {
     `
   }
 
-  renderEmpty(type) {
-    const label = type === "home" ? "home place" : "match"
-    const color = type === "home" ? "teal" : "amber"
-    return `
-      <div class="text-center py-12">
-        <div class="text-4xl mb-4 opacity-50">📍</div>
-        <p class="text-gray-500">Click a ${label} card above to compare</p>
-      </div>
-    `
-  }
-
-  open() {
+  open(event) {
+    event.preventDefault()
     if (this.hasModalTarget) {
       this.modalTarget.classList.remove("hidden")
       this.modalTarget.classList.add("flex")
@@ -91,7 +99,8 @@ export default class extends Controller {
     }
   }
 
-  close() {
+  close(event) {
+    if (event) event.preventDefault()
     if (this.hasModalTarget) {
       this.modalTarget.classList.add("hidden")
       this.modalTarget.classList.remove("flex")
@@ -99,15 +108,42 @@ export default class extends Controller {
     }
   }
 
-  clear() {
+  stopPropagation(event) {
+    event.stopPropagation()
+  }
+
+  clear(event) {
+    if (event) event.preventDefault()
     this.homeData = null
     this.matchData = null
-    this.updateDisplay()
     
-    // Remove all selections
-    document.querySelectorAll("[data-selected]").forEach(el => {
-      el.removeAttribute("data-selected")
-      el.classList.remove("ring-2", "ring-teal-500", "ring-amber-500")
+    if (this.hasHomePlaceTarget) {
+      this.homePlaceTarget.innerHTML = `
+        <div class="text-center py-12">
+          <div class="text-4xl mb-4 opacity-50">📍</div>
+          <p class="text-gray-500">Click "Select for Compare" on a home place</p>
+        </div>
+      `
+    }
+    if (this.hasMatchPlaceTarget) {
+      this.matchPlaceTarget.innerHTML = `
+        <div class="text-center py-12">
+          <div class="text-4xl mb-4 opacity-50">📍</div>
+          <p class="text-gray-500">Click "Select for Compare" on a match</p>
+        </div>
+      `
+    }
+    
+    // Reset all buttons
+    document.querySelectorAll('.select-home-btn').forEach(btn => {
+      btn.classList.remove('bg-teal-500', 'text-white')
+      btn.classList.add('bg-teal-500/20', 'text-teal-400')
+      btn.textContent = '✓ Select for Compare'
+    })
+    document.querySelectorAll('.select-match-btn').forEach(btn => {
+      btn.classList.remove('bg-amber-500', 'text-white')
+      btn.classList.add('bg-amber-500/20', 'text-amber-400')
+      btn.textContent = '✓ Select for Compare'
     })
   }
 }

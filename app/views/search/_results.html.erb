@@ -1,11 +1,11 @@
 <% if @home_results && @match_results %>
   <div data-controller="compare">
     <!-- Compare Button Bar -->
-    <div class="mb-6 p-4 bg-gradient-to-r from-teal-500/10 to-amber-500/10 border border-teal-500/20 rounded-2xl flex items-center justify-between">
+    <div class="mb-6 p-4 bg-gradient-to-r from-teal-500/10 to-amber-500/10 border border-teal-500/20 rounded-2xl flex items-center justify-between flex-wrap gap-4">
       <p class="text-gray-300">
-        💡 <strong>Tip:</strong> Click places below to select them, then compare side-by-side!
+        💡 <strong>Tip:</strong> Click "Select" on places below, then compare side-by-side!
       </p>
-      <button data-action="click->compare#open" class="px-5 py-2.5 bg-gradient-to-r from-teal-500 to-amber-500 rounded-xl font-semibold text-slate-900 hover:opacity-90 transition-opacity">
+      <button type="button" data-action="click->compare#open" class="px-5 py-2.5 bg-gradient-to-r from-teal-500 to-amber-500 rounded-xl font-semibold text-slate-900 hover:opacity-90 transition-opacity cursor-pointer">
         ⚖️ Compare Selected
       </button>
     </div>
@@ -20,11 +20,47 @@
         
         <% if @home_results[:success] && @home_results[:results].any? %>
           <div class="space-y-4">
-            <% @home_results[:results].first(5).each do |place| %>
-              <div data-place='<%= place.to_json %>' 
-                   data-action="click->compare#selectHome"
-                   class="cursor-pointer transition-all hover:scale-[1.02]">
-                <%= render "search/place_card", place: place, is_home: true, selected_category: selected_category %>
+            <% @home_results[:results].first(5).each_with_index do |place, index| %>
+              <div id="home_place_<%= index %>" class="group p-5 bg-slate-900/50 border border-white/10 rounded-2xl hover:border-teal-500/30 transition-all">
+                <div class="flex gap-4">
+                  <% if place[:image_url].present? %>
+                    <img src="<%= place[:image_url] %>" alt="<%= place[:name] %>" class="w-20 h-20 rounded-xl object-cover flex-shrink-0">
+                  <% else %>
+                    <div class="w-20 h-20 rounded-xl bg-gradient-to-br from-teal-500/20 to-amber-500/20 flex items-center justify-center flex-shrink-0">
+                      <span class="text-2xl">📍</span>
+                    </div>
+                  <% end %>
+                  
+                  <div class="flex-1 min-w-0">
+                    <h3 class="font-semibold text-lg truncate"><%= place[:name] %></h3>
+                    <p class="text-sm text-gray-400 truncate"><%= place[:address] %></p>
+                    
+                    <div class="flex items-center gap-3 mt-2 text-sm">
+                      <% if place[:rating] %>
+                        <span class="text-yellow-400">★ <%= place[:rating] %></span>
+                      <% end %>
+                      <% if place[:price] %>
+                        <span class="text-teal-400"><%= place[:price] %></span>
+                      <% end %>
+                      <% if place[:reviews_count] %>
+                        <span class="text-gray-500"><%= place[:reviews_count] %> reviews</span>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="flex items-center gap-2 mt-4 pt-4 border-t border-white/5">
+                  <button type="button"
+                          data-action="click->compare#selectHome"
+                          data-place="<%= place.to_json.gsub('"', '&quot;') %>"
+                          data-index="<%= index %>"
+                          class="select-home-btn px-3 py-1.5 text-sm bg-teal-500/20 border border-teal-500/30 text-teal-400 rounded-lg hover:bg-teal-500/30 transition-colors cursor-pointer">
+                    ✓ Select for Compare
+                  </button>
+                  <% if place[:url] %>
+                    <%= link_to "View on Yelp", place[:url], target: "_blank", class: "px-3 py-1.5 text-sm bg-white/5 rounded-lg hover:bg-white/10 transition-colors" %>
+                  <% end %>
+                </div>
               </div>
             <% end %>
           </div>
@@ -47,11 +83,72 @@
         
         <% if @match_results[:success] && @match_results[:results].any? %>
           <div class="space-y-4">
-            <% @match_results[:results].first(5).each do |place| %>
-              <div data-place='<%= place.to_json %>' 
-                   data-action="click->compare#selectMatch"
-                   class="cursor-pointer transition-all hover:scale-[1.02]">
-                <%= render "search/place_card", place: place, is_home: false, selected_category: selected_category %>
+            <% @match_results[:results].first(5).each_with_index do |place, index| %>
+              <div id="match_place_<%= index %>" class="group p-5 bg-slate-900/50 border border-white/10 rounded-2xl hover:border-amber-500/30 transition-all">
+                <div class="flex gap-4">
+                  <% if place[:image_url].present? %>
+                    <img src="<%= place[:image_url] %>" alt="<%= place[:name] %>" class="w-20 h-20 rounded-xl object-cover flex-shrink-0">
+                  <% else %>
+                    <div class="w-20 h-20 rounded-xl bg-gradient-to-br from-teal-500/20 to-amber-500/20 flex items-center justify-center flex-shrink-0">
+                      <span class="text-2xl">📍</span>
+                    </div>
+                  <% end %>
+                  
+                  <div class="flex-1 min-w-0">
+                    <h3 class="font-semibold text-lg truncate"><%= place[:name] %></h3>
+                    <p class="text-sm text-gray-400 truncate"><%= place[:address] %></p>
+                    
+                    <div class="flex items-center gap-3 mt-2 text-sm">
+                      <% if place[:rating] %>
+                        <span class="text-yellow-400">★ <%= place[:rating] %></span>
+                      <% end %>
+                      <% if place[:price] %>
+                        <span class="text-teal-400"><%= place[:price] %></span>
+                      <% end %>
+                      <% if place[:reviews_count] %>
+                        <span class="text-gray-500"><%= place[:reviews_count] %> reviews</span>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="flex items-center gap-2 mt-4 pt-4 border-t border-white/5">
+                  <button type="button"
+                          data-action="click->compare#selectMatch"
+                          data-place="<%= place.to_json.gsub('"', '&quot;') %>"
+                          data-index="<%= index %>"
+                          class="select-match-btn px-3 py-1.5 text-sm bg-amber-500/20 border border-amber-500/30 text-amber-400 rounded-lg hover:bg-amber-500/30 transition-colors cursor-pointer">
+                    ✓ Select for Compare
+                  </button>
+                  <% if place[:url] %>
+                    <%= link_to "View on Yelp", place[:url], target: "_blank", class: "px-3 py-1.5 text-sm bg-white/5 rounded-lg hover:bg-white/10 transition-colors" %>
+                  <% end %>
+                  
+                  <!-- Save Match Form -->
+                  <turbo-frame id="save_button_<%= place[:yelp_id] %>">
+                    <%= form_with url: save_match_place_path(id: 0), method: :post, data: { controller: "loading", action: "submit->loading#submit", loading_text_value: "Saving..." } do |f| %>
+                      <input type="hidden" name="place[yelp_id]" value="<%= place[:yelp_id] %>">
+                      <input type="hidden" name="place[name]" value="<%= place[:name] %>">
+                      <input type="hidden" name="place[address]" value="<%= place[:address] %>">
+                      <input type="hidden" name="place[city]" value="<%= place[:city] %>">
+                      <input type="hidden" name="place[image_url]" value="<%= place[:image_url] %>">
+                      <input type="hidden" name="place[rating]" value="<%= place[:rating] %>">
+                      <input type="hidden" name="place[price]" value="<%= place[:price] %>">
+                      <input type="hidden" name="place[phone]" value="<%= place[:phone] %>">
+                      <input type="hidden" name="place[url]" value="<%= place[:url] %>">
+                      <input type="hidden" name="place[yelp_reviews_count]" value="<%= place[:reviews_count] %>">
+                      <input type="hidden" name="place[category_id]" value="<%= selected_category&.id %>">
+                      
+                      <button type="submit" data-loading-target="button" class="inline-flex items-center gap-2 px-3 py-1.5 text-sm bg-gradient-to-r from-teal-500 to-amber-500 text-slate-900 font-medium rounded-lg hover:opacity-90 transition-opacity">
+                        <span data-loading-target="text">💾 Save Match</span>
+                        <svg data-loading-target="spinner" class="animate-spin hidden" style="width: 14px; height: 14px;" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                          <circle style="opacity: 0.25;" cx="12" cy="12" r="10" stroke="#0f172a" stroke-width="4"></circle>
+                          <path style="opacity: 0.75;" fill="#0f172a" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                      </button>
+                    <% end %>
+                  </turbo-frame>
+                </div>
               </div>
             <% end %>
           </div>
@@ -68,16 +165,17 @@
 
     <!-- Compare Modal -->
     <div data-compare-target="modal" 
-         class="fixed inset-0 z-50 hidden items-center justify-center bg-black/70 backdrop-blur-sm p-4">
-      <div class="bg-slate-900 border border-white/10 rounded-3xl max-w-4xl w-full max-h-[90vh] overflow-auto">
+         class="fixed inset-0 z-50 hidden items-center justify-center bg-black/70 backdrop-blur-sm p-4"
+         data-action="click->compare#close">
+      <div class="bg-slate-900 border border-white/10 rounded-3xl max-w-4xl w-full max-h-[90vh] overflow-auto" data-action="click->compare#stopPropagation">
         <!-- Modal Header -->
         <div class="flex items-center justify-between p-6 border-b border-white/10">
           <h2 class="text-2xl font-bold">⚖️ Compare Places</h2>
           <div class="flex items-center gap-2">
-            <button data-action="click->compare#clear" class="px-4 py-2 bg-white/5 rounded-lg hover:bg-white/10 transition-colors text-gray-400 hover:text-white">
+            <button type="button" data-action="click->compare#clear" class="px-4 py-2 bg-white/5 rounded-lg hover:bg-white/10 transition-colors text-gray-400 hover:text-white cursor-pointer">
               Clear
             </button>
-            <button data-action="click->compare#close" class="p-2 bg-white/5 rounded-lg hover:bg-white/10 transition-colors">
+            <button type="button" data-action="click->compare#close" class="p-2 bg-white/5 rounded-lg hover:bg-white/10 transition-colors cursor-pointer">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
               </svg>
@@ -97,7 +195,7 @@
               <div data-compare-target="homePlace" class="p-6 bg-teal-500/5 border border-teal-500/20 rounded-2xl min-h-[300px]">
                 <div class="text-center py-12">
                   <div class="text-4xl mb-4 opacity-50">📍</div>
-                  <p class="text-gray-500">Click a home place card above to compare</p>
+                  <p class="text-gray-500">Click "Select for Compare" on a home place</p>
                 </div>
               </div>
             </div>
@@ -111,7 +209,7 @@
               <div data-compare-target="matchPlace" class="p-6 bg-amber-500/5 border border-amber-500/20 rounded-2xl min-h-[300px]">
                 <div class="text-center py-12">
                   <div class="text-4xl mb-4 opacity-50">📍</div>
-                  <p class="text-gray-500">Click a match card above to compare</p>
+                  <p class="text-gray-500">Click "Select for Compare" on a match</p>
                 </div>
               </div>
             </div>
