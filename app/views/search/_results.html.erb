@@ -1,49 +1,123 @@
 <% if @home_results && @match_results %>
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-    <!-- Home City Results -->
-    <div>
-      <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
-        <span class="w-10 h-10 bg-teal-500/20 rounded-xl flex items-center justify-center">🏠</span>
-        Places in <%= @home_city %>
-      </h2>
-      
-      <% if @home_results[:success] && @home_results[:results].any? %>
-        <div class="space-y-4">
-          <% @home_results[:results].first(5).each do |place| %>
-            <%= render "search/place_card", place: place, is_home: true, selected_category: selected_category %>
-          <% end %>
-        </div>
-      <% else %>
-        <div class="p-8 bg-slate-900/50 border border-white/10 rounded-2xl text-center">
-          <p class="text-gray-400">No places found. Try a different search.</p>
-          <% if @home_results[:error] %>
-            <p class="text-red-400 text-sm mt-2"><%= @home_results[:error] %></p>
-          <% end %>
-        </div>
-      <% end %>
+  <div data-controller="compare">
+    <!-- Compare Button Bar -->
+    <div class="mb-6 p-4 bg-gradient-to-r from-teal-500/10 to-amber-500/10 border border-teal-500/20 rounded-2xl flex items-center justify-between">
+      <p class="text-gray-300">
+        💡 <strong>Tip:</strong> Click places below to select them, then compare side-by-side!
+      </p>
+      <button data-action="click->compare#open" class="px-5 py-2.5 bg-gradient-to-r from-teal-500 to-amber-500 rounded-xl font-semibold text-slate-900 hover:opacity-90 transition-opacity">
+        ⚖️ Compare Selected
+      </button>
     </div>
 
-    <!-- New City Matches -->
-    <div>
-      <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
-        <span class="w-10 h-10 bg-amber-500/20 rounded-xl flex items-center justify-center">✨</span>
-        Matches in <%= @new_city %>
-      </h2>
-      
-      <% if @match_results[:success] && @match_results[:results].any? %>
-        <div class="space-y-4">
-          <% @match_results[:results].first(5).each do |place| %>
-            <%= render "search/place_card", place: place, is_home: false, selected_category: selected_category %>
-          <% end %>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <!-- Home City Results -->
+      <div>
+        <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
+          <span class="w-10 h-10 bg-teal-500/20 rounded-xl flex items-center justify-center">🏠</span>
+          Places in <%= @home_city %>
+        </h2>
+        
+        <% if @home_results[:success] && @home_results[:results].any? %>
+          <div class="space-y-4">
+            <% @home_results[:results].first(5).each do |place| %>
+              <div data-place='<%= place.to_json %>' 
+                   data-action="click->compare#selectHome"
+                   class="cursor-pointer transition-all hover:scale-[1.02]">
+                <%= render "search/place_card", place: place, is_home: true, selected_category: selected_category %>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <div class="p-8 bg-slate-900/50 border border-white/10 rounded-2xl text-center">
+            <p class="text-gray-400">No places found. Try a different search.</p>
+            <% if @home_results[:error] %>
+              <p class="text-red-400 text-sm mt-2"><%= @home_results[:error] %></p>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+
+      <!-- New City Matches -->
+      <div>
+        <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
+          <span class="w-10 h-10 bg-amber-500/20 rounded-xl flex items-center justify-center">✨</span>
+          Matches in <%= @new_city %>
+        </h2>
+        
+        <% if @match_results[:success] && @match_results[:results].any? %>
+          <div class="space-y-4">
+            <% @match_results[:results].first(5).each do |place| %>
+              <div data-place='<%= place.to_json %>' 
+                   data-action="click->compare#selectMatch"
+                   class="cursor-pointer transition-all hover:scale-[1.02]">
+                <%= render "search/place_card", place: place, is_home: false, selected_category: selected_category %>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <div class="p-8 bg-slate-900/50 border border-white/10 rounded-2xl text-center">
+            <p class="text-gray-400">No matches found. Try a different category.</p>
+            <% if @match_results[:error] %>
+              <p class="text-red-400 text-sm mt-2"><%= @match_results[:error] %></p>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Compare Modal -->
+    <div data-compare-target="modal" 
+         class="fixed inset-0 z-50 hidden items-center justify-center bg-black/70 backdrop-blur-sm p-4">
+      <div class="bg-slate-900 border border-white/10 rounded-3xl max-w-4xl w-full max-h-[90vh] overflow-auto">
+        <!-- Modal Header -->
+        <div class="flex items-center justify-between p-6 border-b border-white/10">
+          <h2 class="text-2xl font-bold">⚖️ Compare Places</h2>
+          <div class="flex items-center gap-2">
+            <button data-action="click->compare#clear" class="px-4 py-2 bg-white/5 rounded-lg hover:bg-white/10 transition-colors text-gray-400 hover:text-white">
+              Clear
+            </button>
+            <button data-action="click->compare#close" class="p-2 bg-white/5 rounded-lg hover:bg-white/10 transition-colors">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+              </svg>
+            </button>
+          </div>
         </div>
-      <% else %>
-        <div class="p-8 bg-slate-900/50 border border-white/10 rounded-2xl text-center">
-          <p class="text-gray-400">No matches found. Try a different category.</p>
-          <% if @match_results[:error] %>
-            <p class="text-red-400 text-sm mt-2"><%= @match_results[:error] %></p>
-          <% end %>
+
+        <!-- Modal Body -->
+        <div class="p-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Home Place -->
+            <div>
+              <div class="flex items-center gap-2 mb-4">
+                <span class="w-8 h-8 bg-teal-500/20 rounded-lg flex items-center justify-center text-lg">🏠</span>
+                <h3 class="font-semibold text-teal-400">Home Place</h3>
+              </div>
+              <div data-compare-target="homePlace" class="p-6 bg-teal-500/5 border border-teal-500/20 rounded-2xl min-h-[300px]">
+                <div class="text-center py-12">
+                  <div class="text-4xl mb-4 opacity-50">📍</div>
+                  <p class="text-gray-500">Click a home place card above to compare</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Match Place -->
+            <div>
+              <div class="flex items-center gap-2 mb-4">
+                <span class="w-8 h-8 bg-amber-500/20 rounded-lg flex items-center justify-center text-lg">✨</span>
+                <h3 class="font-semibold text-amber-400">Match Place</h3>
+              </div>
+              <div data-compare-target="matchPlace" class="p-6 bg-amber-500/5 border border-amber-500/20 rounded-2xl min-h-[300px]">
+                <div class="text-center py-12">
+                  <div class="text-4xl mb-4 opacity-50">📍</div>
+                  <p class="text-gray-500">Click a match card above to compare</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      <% end %>
+      </div>
     </div>
   </div>
 <% end %>
