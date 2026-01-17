@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html class="h-full">
+<html class="h-full" data-controller="theme">
   <head>
     <title><%= content_for(:title) || "This Is That" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="description" content="Find places like home in your new city">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#0d9488">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= yield :head %>
@@ -25,9 +26,20 @@
     <!-- Leaflet JS for Maps -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    
+    <!-- Theme initialization -->
+    <script>
+      // Apply saved theme immediately to prevent flash
+      (function() {
+        const theme = localStorage.getItem('theme') || 'dark';
+        if (theme === 'dark') {
+          document.documentElement.classList.add('dark-mode');
+        }
+      })();
+    </script>
   </head>
 
-  <body class="h-full bg-gradient-to-br from-slate-950 via-teal-950 to-slate-950 text-white font-['Space_Grotesk']">
+  <body class="h-full font-['Space_Grotesk'] transition-colors duration-300">
     <!-- Navigation -->
     <%= render "shared/navbar" %>
 

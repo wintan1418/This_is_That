@@ -3,11 +3,6 @@ import { Controller } from "@hotwired/stimulus"
 // Connects to data-controller="theme"
 // Handles dark/light mode toggle with localStorage persistence
 export default class extends Controller {
-  static targets = ["toggle", "icon"]
-  static values = {
-    theme: { type: String, default: "dark" }
-  }
-
   connect() {
     // Load saved theme or default to dark
     const savedTheme = localStorage.getItem("theme") || "dark"
@@ -15,25 +10,24 @@ export default class extends Controller {
   }
 
   toggle() {
-    const newTheme = this.themeValue === "dark" ? "light" : "dark"
+    const isDark = document.documentElement.classList.contains("dark-mode")
+    const newTheme = isDark ? "light" : "dark"
     this.applyTheme(newTheme)
     localStorage.setItem("theme", newTheme)
   }
 
   applyTheme(theme) {
-    this.themeValue = theme
-    
-    if (theme === "light") {
-      document.documentElement.classList.add("light-mode")
-      document.documentElement.classList.remove("dark-mode")
-    } else {
+    if (theme === "dark") {
       document.documentElement.classList.add("dark-mode")
       document.documentElement.classList.remove("light-mode")
+    } else {
+      document.documentElement.classList.remove("dark-mode")
+      document.documentElement.classList.add("light-mode")
     }
     
-    // Update icon if present
-    if (this.hasIconTarget) {
-      this.iconTarget.textContent = theme === "dark" ? "🌙" : "☀️"
-    }
+    // Update all toggle icons on the page
+    document.querySelectorAll("[data-theme-icon]").forEach(icon => {
+      icon.textContent = theme === "dark" ? "🌙" : "☀️"
+    })
   }
 }
