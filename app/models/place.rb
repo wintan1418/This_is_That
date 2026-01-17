@@ -32,7 +32,7 @@ class Place < ApplicationRecord
 
   # Full address for geocoding
   def full_address
-    [address, city, state, country].compact.join(", ")
+    [address, city, state, country].map(&:presence).compact.join(", ")
   end
 
   # Average rating from reviews

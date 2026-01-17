@@ -32,7 +32,7 @@ class YelpSearchService
 
     {
       success: true,
-      results: parse_results(result["organic_results"] || []),
+      results: parse_results(result["organic_results"] || [], location),
       total: result["search_information"]&.dig("total_results") || 0
     }
   rescue Faraday::Error => e
@@ -55,13 +55,16 @@ class YelpSearchService
 
   private
 
-  def parse_results(results)
+  def parse_results(results, default_location = nil)
+    # Extract city from default location if provided (e.g. "Austin, TX" -> "Austin")
+    default_city = default_location&.split(",")&.first&.strip
+
     results.map do |result|
       {
         yelp_id: extract_yelp_id(result["link"]),
         name: result["title"],
         address: result["address"],
-        city: extract_city(result["neighborhoods"]),
+        city: extract_city(result["neighborhoods"]) || default_city,
         rating: result["rating"],
         reviews_count: result["reviews"],
         price: result["price"],

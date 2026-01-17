@@ -55,6 +55,16 @@
         </div>
       </div>
 
+      <!-- Map -->
+      <% if @place.latitude.present? && @place.longitude.present? %>
+        <div class="h-64 w-full bg-slate-900 rounded-xl overflow-hidden mb-8 border border-white/10 relative z-0"
+             data-controller="map"
+             data-map-latitude-value="<%= @place.latitude %>"
+             data-map-longitude-value="<%= @place.longitude %>"
+             data-map-name-value="<%= @place.name %>">
+        </div>
+      <% end %>
+
       <!-- External Links -->
       <% if @place.url.present? || @place.phone.present? %>
         <div class="flex gap-4 mb-8">
