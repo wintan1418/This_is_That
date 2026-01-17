@@ -64,6 +64,11 @@ Manage your profile, view your saved matches, and explore new cities.
 
 ![User Dashboard](app/assets/images/dashboardthis.png)
 
+### 3. Place Details & Map
+See ratings, reviews, and the exact location on our integrated map.
+
+![Place Details](app/assets/images/geocode.png)
+
 ## 🛠 Tech Stack
 
 - **Backend**: Ruby on Rails 7
