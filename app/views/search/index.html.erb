@@ -6,7 +6,7 @@
 
   <!-- Search Form -->
   <div class="max-w-3xl mx-auto mb-16">
-    <%= form_with url: search_find_matches_path, method: :post, id: "search-form", data: { turbo: false }, class: "p-8 bg-slate-900/50 border border-teal-500/20 rounded-3xl" do |f| %>
+    <%= form_with url: search_find_matches_path, method: :post, id: "search-form", data: { turbo: false, controller: "loading", action: "submit->loading#submit" }, class: "p-8 bg-slate-900/50 border border-teal-500/20 rounded-3xl" do |f| %>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         <!-- Home City -->
         <div>
@@ -55,18 +55,13 @@
       </div>
 
       <!-- Submit -->
-      <%= f.submit "Find Matches 🚀", id: "search-submit", class: "w-full py-4 bg-gradient-to-r from-teal-500 to-amber-500 text-slate-900 rounded-xl font-semibold text-lg cursor-pointer hover:opacity-90 transition-opacity shadow-lg shadow-teal-500/25 disabled:opacity-50 disabled:cursor-not-allowed" %>
-      
-      <!-- Loading Spinner (hidden by default) -->
-      <div id="search-loading" class="hidden mt-4">
-        <div class="flex items-center justify-center gap-3 py-3 px-4 bg-slate-800/50 rounded-xl border border-teal-500/20">
-          <svg class="animate-spin" style="width: 20px; height: 20px;" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-            <circle style="opacity: 0.25;" cx="12" cy="12" r="10" stroke="#2dd4bf" stroke-width="4"></circle>
-            <path style="opacity: 0.75;" fill="#2dd4bf" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-          </svg>
-          <span class="text-gray-300 text-sm">Searching for matches...</span>
-        </div>
-      </div>
+      <button type="submit" data-loading-target="button" class="w-full py-4 bg-gradient-to-r from-teal-500 to-amber-500 text-slate-900 rounded-xl font-semibold text-lg cursor-pointer hover:opacity-90 transition-opacity shadow-lg shadow-teal-500/25 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3">
+        <span data-loading-target="text">Find Matches 🚀</span>
+        <svg data-loading-target="spinner" class="animate-spin hidden" style="width: 20px; height: 20px;" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle style="opacity: 0.25;" cx="12" cy="12" r="10" stroke="#0f172a" stroke-width="4"></circle>
+          <path style="opacity: 0.75;" fill="#0f172a" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+      </button>
     <% end %>
   </div>
 
@@ -79,23 +74,4 @@
     </p>
   </div>
 </div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  const form = document.getElementById('search-form');
-  const submitBtn = document.getElementById('search-submit');
-  const loadingDiv = document.getElementById('search-loading');
-  
-  if (form) {
-    form.addEventListener('submit', function() {
-      // Show loading spinner
-      loadingDiv.classList.remove('hidden');
-      
-      // Disable and update submit button
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Searching...';
-    });
-  }
-});
-</script>
 

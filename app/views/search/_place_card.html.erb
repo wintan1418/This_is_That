@@ -36,26 +36,36 @@
     
     <% unless is_home %>
       <turbo-frame id="save_button_<%= place[:yelp_id] %>">
-        <%= button_to save_match_place_path(id: 0), 
-            method: :post,
-            params: { 
-              place: {
-                yelp_id: place[:yelp_id],
-                name: place[:name],
-                address: place[:address],
-                city: place[:city],
-                image_url: place[:image_url],
-                rating: place[:rating],
-                price: place[:price],
-                phone: place[:phone],
-                url: place[:url],
-                category_id: selected_category&.id
-              }
-            },
-            class: "inline-flex items-center gap-2 px-3 py-1.5 text-sm bg-gradient-to-r from-teal-500 to-amber-500 text-slate-900 font-medium rounded-lg hover:opacity-90 transition-opacity",
-            data: { turbo_frame: "save_button_#{place[:yelp_id]}" } do %>
-          <span>💾</span>
-          <span>Save Match</span>
+        <%= form_with url: save_match_place_path(id: 0), method: :post, data: { controller: "loading", action: "submit->loading#submit", loading_text_value: "Saving..." } do |f| %>
+
+          
+          <!-- We need to pass nested params properly as hidden fields or just use parameters in button_to... 
+               Actually button_to is a form helper. Let's stick to form_with for custom structure or just style the button tag.
+               Using HTML button for flexible content. -->
+          
+          <% 
+            # Reconstruct params for hidden fields manually because direct object passing in hidden_field is tricky with strong params structure expected by controller
+            # Controller expects params[:place][:name] etc.
+          %>
+          <input type="hidden" name="place[yelp_id]" value="<%= place[:yelp_id] %>">
+          <input type="hidden" name="place[name]" value="<%= place[:name] %>">
+          <input type="hidden" name="place[address]" value="<%= place[:address] %>">
+          <input type="hidden" name="place[city]" value="<%= place[:city] %>">
+          <input type="hidden" name="place[image_url]" value="<%= place[:image_url] %>">
+          <input type="hidden" name="place[rating]" value="<%= place[:rating] %>">
+          <input type="hidden" name="place[price]" value="<%= place[:price] %>">
+          <input type="hidden" name="place[phone]" value="<%= place[:phone] %>">
+          <input type="hidden" name="place[url]" value="<%= place[:url] %>">
+          <input type="hidden" name="place[category_id]" value="<%= selected_category&.id %>">
+
+          <button type="submit" data-loading-target="button" class="inline-flex items-center gap-2 px-3 py-1.5 text-sm bg-gradient-to-r from-teal-500 to-amber-500 text-slate-900 font-medium rounded-lg hover:opacity-90 transition-opacity">
+            <span data-loading-target="icon">💾</span>
+            <svg data-loading-target="spinner" class="animate-spin hidden" style="width: 16px; height: 16px;" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle style="opacity: 0.25;" cx="12" cy="12" r="10" stroke="#0f172a" stroke-width="4"></circle>
+              <path style="opacity: 0.75;" fill="#0f172a" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <span data-loading-target="text">Save Match</span>
+          </button>
         <% end %>
       </turbo-frame>
     <% end %>
