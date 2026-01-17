@@ -2,15 +2,48 @@
 
 ![App Preview](app/assets/images/homepagethis.png)
 
-"This Is That" is a Rails application that helps digital nomads and travelers find familiar places in new cities. Love **Blue Bottle Coffee** in **San Francisco**? We'll help you find the equivalent vibe in **Tokyo**, **Austin**, or **Berlin**.
+**"This Is That"** is a Rails application that helps digital nomads and travelers find familiar places in new cities. Love **Blue Bottle Coffee** in **San Francisco**? We'll help you find the equivalent vibe in **Tokyo**, **Austin**, or **Berlin**.
 
 ## ✨ Features
 
-- **Smart Matching**: Connects you to places that feel like home.
-- **Yelp Integration**: Real-time data on ratings, prices, and reviews.
-- **Visual Search**: Beautiful UI to explore your matches.
-- **Save Favorites**: Keep track of the spots you want to visit.
-- **User Accounts**: Personalized experience with profile management.
+### Core Features
+- **Smart Matching** - Connects you to places that feel like home using Yelp data
+- **Visual Search** - Beautiful dark-themed UI to explore your matches
+- **Save Favorites** - Star your favorite places for quick access
+- **User Accounts** - Personalized experience with Devise authentication
+
+### New Features (v2.0)
+- ⚖️ **Compare Places** - Side-by-side comparison of home spots vs matches
+- 🔍 **Search History** - Quick access to your recent searches
+- ⭐ **Favorites System** - Mark and organize your favorite places
+- 🌍 **Explore Page** - Discover places saved by the community
+- ⚙️ **Settings Page** - Manage profile, email preferences, theme
+- 🗑️ **Delete Account** - GDPR-compliant account deletion
+- 📤 **Share Places** - Share place details via Web Share API
+- 👍👎 **Review Voting** - Upvote/downvote reviews from other users
+- 🔙 **Back Navigation** - Consistent back buttons on all pages
+
+## 📸 Screenshots
+
+### Homepage
+Start your journey by defining what you're looking for.
+
+![Homepage](app/assets/images/homepagethis.png)
+
+### Compare Places
+Select a home place and a match to compare them side-by-side.
+
+![Compare Places](app/assets/images/compare.png)
+
+### User Dashboard
+Manage your profile, view your saved matches, and explore new cities.
+
+![User Dashboard](app/assets/images/dashboardthis.png)
+
+### Place Details & Map
+See ratings, reviews, and the exact location on our integrated map.
+
+![Place Details](app/assets/images/geocode.png)
 
 ## 🚀 Getting Started
 
@@ -36,7 +69,7 @@
 
 3. **Setup Database**
    ```bash
-   rails db:create db:migrate
+   rails db:create db:migrate db:seed
    ```
 
 4. **Environment Variables**
@@ -52,30 +85,39 @@
 
    Visit `http://localhost:3000` to start searching!
 
-## 📸 The Flow
-
-### 1. Homepage
-Start your journey by defining what you're looking for.
-
-![Homepage](app/assets/images/homepagethis.png)
-
-### 2. User Dashboard
-Manage your profile, view your saved matches, and explore new cities.
-
-![User Dashboard](app/assets/images/dashboardthis.png)
-
-### 3. Place Details & Map
-See ratings, reviews, and the exact location on our integrated map.
-
-![Place Details](app/assets/images/geocode.png)
-
 ## 🛠 Tech Stack
 
-- **Backend**: Ruby on Rails 7
+- **Backend**: Ruby on Rails 8
 - **Frontend**: TailwindCSS, Hotwire (Turbo & Stimulus)
 - **Database**: PostgreSQL
-- **APIs**: SerpAPI (Yelp Data)
-- **deployment**: Render / Heroku (Ready)
+- **APIs**: SerpAPI (Yelp Data), Nominatim (Geocoding)
+- **Maps**: Leaflet.js
+- **Authentication**: Devise with OmniAuth (Google)
+- **Deployment**: Render / Heroku Ready
+
+## 📁 Project Structure
+
+```
+app/
+├── controllers/
+│   ├── dashboard_controller.rb   # User dashboard & favorites
+│   ├── explore_controller.rb     # Public places discovery
+│   ├── places_controller.rb      # CRUD for saved places
+│   ├── reviews_controller.rb     # Reviews & voting
+│   ├── search_controller.rb      # Yelp search & matching
+│   └── settings_controller.rb    # User profile settings
+├── javascript/controllers/
+│   ├── compare_controller.js     # Side-by-side comparison
+│   ├── loading_controller.js     # Button loading states
+│   ├── map_controller.js         # Leaflet map integration
+│   └── rating_controller.js      # Star rating interaction
+└── views/
+    ├── dashboard/                # Dashboard views
+    ├── explore/                  # Explore page
+    ├── places/                   # Place cards & details
+    ├── search/                   # Search & results
+    └── settings/                 # Settings page
+```
 
 ## 🤝 Contributing
 
@@ -88,3 +130,7 @@ See ratings, reviews, and the exact location on our integrated map.
 ## 📄 License
 
 Distributed under the MIT License. See `LICENSE` for more information.
+
+---
+
+Built with ❤️ using Rails 8 & TailwindCSS
