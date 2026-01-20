@@ -13,7 +13,7 @@ class User < ApplicationRecord
   has_many :notifications, dependent: :destroy
 
   # Validations
-  validates :name, length: { maximum: 100 }
+  validates :name, presence: true, length: { maximum: 100 }
 
   # OAuth helper methods
   def self.from_omniauth(auth)
