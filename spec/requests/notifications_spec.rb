@@ -21,7 +21,7 @@ RSpec.describe "Notifications", type: :request do
       expect(user.notifications.unread.count).to eq(1)
 
       post mark_all_as_read_notifications_path
-      
+
       expect(response).to redirect_to(notifications_path)
       expect(user.notifications.unread.count).to eq(0)
     end
@@ -30,7 +30,7 @@ RSpec.describe "Notifications", type: :request do
   describe "POST /notifications/:id/mark_as_read" do
     it "marks a single notification as read" do
       post mark_as_read_notification_path(notification)
-      
+
       expect(response).to redirect_to(notifications_path)
       expect(notification.reload.read).to be true
     end

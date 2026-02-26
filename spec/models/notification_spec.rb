@@ -16,7 +16,7 @@ RSpec.describe Notification, type: :model do
   describe '.notify_match_saved' do
     it 'creates a match notification for the user' do
       user = create(:user)
-      
+
       expect {
         Notification.notify_match_saved(user, "Blue Bottle")
       }.to change(Notification, :count).by(1)

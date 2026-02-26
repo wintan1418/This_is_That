@@ -49,7 +49,7 @@ class YelpSearchService
   def find_matches(home_place:, new_city:)
     # Use the category and name as search query
     query = home_place.category&.yelp_alias || home_place.name
-    
+
     search(query: query, location: new_city)
   end
 

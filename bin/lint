@@ -1,0 +1,17 @@
+#!/usr/bin/env ruby
+APP_ROOT = File.expand_path('..', __dir__)
+Dir.chdir(APP_ROOT) do
+  puts '== Running RuboCop =='
+  unless system('bundle exec rubocop --parallel --format progress')
+    puts "\n== RuboCop failed =="
+    exit(1)
+  end
+
+  puts "\n== Running Brakeman =="
+  unless system('bundle exec brakeman -q --no-pager')
+    puts "\n== Brakeman failed =="
+    exit(1)
+  end
+
+  puts "\n== All checks passed =="
+end

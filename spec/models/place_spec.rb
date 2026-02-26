@@ -23,7 +23,7 @@ RSpec.describe Place, type: :model do
       place = build(:place, address: '1600 Amphitheatre Parkway, Mountain View, CA')
       # We mock geocoder call to avoid hitting external API in tests
       allow(place).to receive(:geocode).and_return(true)
-      
+
       expect(place).to be_valid
     end
   end

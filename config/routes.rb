@@ -15,7 +15,7 @@ Rails.application.routes.draw do
 
   # Places
   resources :places do
-    resources :reviews, only: [:create, :destroy] do
+    resources :reviews, only: [ :create, :destroy ] do
       member do
         post :upvote
         post :downvote
@@ -45,9 +45,9 @@ Rails.application.routes.draw do
 
   # Explore (public places)
   get "explore", to: "explore#index"
-  
+
   # Notifications
-  resources :notifications, only: [:index] do
+  resources :notifications, only: [ :index ] do
     member do
       post :mark_as_read
     end

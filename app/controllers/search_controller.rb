@@ -15,7 +15,7 @@ class SearchController < ApplicationController
     @new_city = params[:new_city]
     @category = params[:category]
     @categories = Category.alphabetical
-    
+
     # Save to search history
     current_user.search_histories.create(
       home_city: @home_city,
@@ -23,7 +23,7 @@ class SearchController < ApplicationController
       category: @category,
       query: @query
     )
-    
+
     # Resolve the category object for saving matches
     @selected_category = if @category.present?
       Category.find_by(yelp_alias: @category)
@@ -33,7 +33,7 @@ class SearchController < ApplicationController
     end
 
     service = YelpSearchService.new
-    
+
     # First, search for places in home city
     @home_results = service.search(
       query: @category.present? ? @category : @query,
@@ -47,6 +47,6 @@ class SearchController < ApplicationController
     )
 
     # Always render HTML, disable turbo_stream for simplicity
-    render :find_matches, formats: [:html]
+    render :find_matches, formats: [ :html ]
   end
 end

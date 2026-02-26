@@ -1,6 +1,6 @@
 class ReviewsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_place
+  before_action :set_placewh
 
   def create
     @review = @place.reviews.build(review_params)
@@ -15,7 +15,7 @@ class ReviewsController < ApplicationController
 
   def destroy
     @review = @place.reviews.find(params[:id])
-    
+
     if @review.user == current_user
       @review.destroy
       redirect_to @place, notice: "Review removed."
@@ -46,7 +46,7 @@ class ReviewsController < ApplicationController
 
   def vote(review, value)
     existing_vote = review.votes.find_by(user: current_user)
-    
+
     if existing_vote
       if existing_vote.value == value
         # Toggle off - remove vote

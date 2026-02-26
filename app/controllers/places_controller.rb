@@ -1,7 +1,7 @@
 class PlacesController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show]
-  before_action :set_place, only: [:show, :edit, :update, :destroy]
-  before_action :authorize_user!, only: [:edit, :update, :destroy]
+  before_action :authenticate_user!, except: [ :index, :show ]
+  before_action :set_place, only: [ :show, :edit, :update, :destroy ]
+  before_action :authorize_user!, only: [ :edit, :update, :destroy ]
 
   def index
     @places = Place.includes(:category, :user).order(created_at: :desc).limit(20)
@@ -19,7 +19,7 @@ class PlacesController < ApplicationController
 
   def create
     @place = current_user.places.build(place_params)
-    
+
     if @place.save
       redirect_to @place, notice: "Place was successfully created."
     else
@@ -62,18 +62,18 @@ class PlacesController < ApplicationController
     if @place.save
       respond_to do |format|
         format.html { redirect_to @place, notice: "Place saved to your matches!" }
-        format.turbo_stream { 
+        format.turbo_stream {
           render turbo_stream: turbo_stream.replace(
-            "save_button_#{@yelp_id}", 
-            partial: "places/saved_button", 
+            "save_button_#{@yelp_id}",
+            partial: "places/saved_button",
             locals: { place: @place }
-          ) 
+          )
         }
       end
     else
       respond_to do |format|
         format.html { redirect_back fallback_location: search_path, alert: "Could not save place." }
-        format.turbo_stream { 
+        format.turbo_stream {
           render turbo_stream: turbo_stream.replace(
             "save_button_#{@yelp_id}",
             html: %(<turbo-frame id="save_button_#{@yelp_id}"><span class="px-3 py-1.5 text-sm text-red-400">Failed to save</span></turbo-frame>).html_safe
@@ -86,7 +86,7 @@ class PlacesController < ApplicationController
   def toggle_favorite
     @place = current_user.places.find(params[:id])
     @place.update(is_favorite: !@place.is_favorite)
-    
+
     respond_to do |format|
       format.html { redirect_back fallback_location: @place }
       format.turbo_stream {

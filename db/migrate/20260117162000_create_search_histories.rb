@@ -9,7 +9,7 @@ class CreateSearchHistories < ActiveRecord::Migration[8.0]
 
       t.timestamps
     end
-    
-    add_index :search_histories, [:user_id, :created_at]
+
+    add_index :search_histories, [ :user_id, :created_at ]
   end
 end

@@ -9,6 +9,6 @@ class CreateVotes < ActiveRecord::Migration[8.0]
     end
 
     # Each user can only vote once per review
-    add_index :votes, [:user_id, :review_id], unique: true
+    add_index :votes, [ :user_id, :review_id ], unique: true
   end
 end

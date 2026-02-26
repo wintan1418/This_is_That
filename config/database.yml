@@ -84,6 +84,7 @@ production:
     database: this_is_that_production
     username: this_is_that
     password: <%= ENV["THIS_IS_THAT_DATABASE_PASSWORD"] %>
+    host: localhost
   cache:
     <<: *primary_production
     database: this_is_that_production_cache

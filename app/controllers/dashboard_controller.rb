@@ -5,7 +5,7 @@ class DashboardController < ApplicationController
     @home_places = current_user.home_places.includes(:category).limit(6)
     @matched_places = current_user.matched_places.includes(:category).limit(6)
     @recent_reviews = current_user.reviews.includes(:place).recent.limit(5)
-    
+
     # For "View All" visibility
     @total_home_places = current_user.home_places.count
     @total_matched_places = current_user.matched_places.count

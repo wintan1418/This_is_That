@@ -23,6 +23,7 @@ class Place < ApplicationRecord
   validates :name, presence: true
   validates :address, presence: true, if: :is_home_place
   validates :city, presence: true, if: :is_home_place
+  validates :url, format: { with: URI::DEFAULT_PARSER.make_regexp(%w[http https]), message: "must be a valid URL" }, allow_blank: true
 
   # Scopes
   scope :home_places, -> { where(is_home_place: true) }
@@ -34,7 +35,7 @@ class Place < ApplicationRecord
 
   # Full address for geocoding
   def full_address
-    [address, city, state, country].map(&:presence).compact.join(", ")
+    [ address, city, state, country ].map(&:presence).compact.join(", ")
   end
 
   # Average rating from reviews
