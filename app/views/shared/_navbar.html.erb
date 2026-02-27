@@ -1,4 +1,4 @@
-<nav class="fixed top-0 left-0 right-0 z-50 bg-slate-950/90 backdrop-blur-xl border-b border-teal-500/10" data-controller="mobile-menu" data-action="keydown@window->mobile-menu#closeOnEscape">
+<nav class="fixed top-0 left-0 right-0 z-50 bg-slate-950/90 backdrop-blur-xl border-b border-teal-500/10">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between h-16">
       <!-- Logo -->
@@ -11,19 +11,18 @@
         </span>
       <% end %>
 
-      <!-- Desktop Nav -->
+      <!-- Desktop Nav Links -->
       <div class="hidden md:flex items-center gap-6">
         <%= link_to "Find Match", search_path, class: "text-gray-300 hover:text-teal-300 transition-colors font-medium" %>
         <%= link_to "Explore", explore_path, class: "text-gray-300 hover:text-teal-300 transition-colors font-medium" %>
         <%= link_to "About", about_path, class: "text-gray-300 hover:text-teal-300 transition-colors font-medium" %>
       </div>
 
-      <!-- Right Side Actions -->
+      <!-- Right Side -->
       <div class="flex items-center gap-3">
         <% if user_signed_in? %>
-          <!-- Desktop-only action icons -->
+          <!-- Desktop: Action buttons -->
           <div class="hidden md:flex items-center gap-3">
-            <!-- Notifications Bell -->
             <% unread_count = current_user.notifications.unread.count %>
             <%= link_to notifications_path, class: "relative p-2 rounded-lg bg-white/5 border border-white/10 hover:border-teal-500/30 text-gray-400 hover:text-white transition-all", title: "Notifications" do %>
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -36,14 +35,12 @@
               <% end %>
             <% end %>
 
-            <!-- Favorites Quick Link -->
             <%= link_to favorites_path, class: "p-2 rounded-lg bg-white/5 border border-white/10 hover:border-yellow-500/30 text-gray-400 hover:text-yellow-400 transition-all", title: "Favorites" do %>
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
               </svg>
             <% end %>
 
-            <!-- Settings -->
             <%= link_to settings_path, class: "p-2 rounded-lg bg-white/5 border border-white/10 hover:border-teal-500/30 text-gray-400 hover:text-white transition-all", title: "Settings" do %>
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
@@ -52,7 +49,7 @@
             <% end %>
           </div>
 
-          <!-- Profile (visible on desktop) -->
+          <!-- Desktop: Profile + Sign Out -->
           <div class="hidden md:flex items-center">
             <%= link_to dashboard_path, class: "flex items-center gap-2 text-gray-300 hover:text-white transition-colors" do %>
               <div class="w-9 h-9 rounded-full bg-gradient-to-br from-teal-400 to-amber-400 flex items-center justify-center text-slate-900 font-semibold shadow-md">
@@ -60,11 +57,10 @@
               </div>
               <span class="hidden lg:inline font-medium"><%= current_user.name || "Dashboard" %></span>
             <% end %>
-
             <%= button_to "Sign Out", destroy_user_session_path, method: :delete, class: "ml-2 px-4 py-2 text-sm text-gray-400 hover:text-white transition-colors" %>
           </div>
 
-          <!-- Mobile: Notification badge + Hamburger -->
+          <!-- Mobile: Just notification badge (nav is handled by bottom bar) -->
           <div class="flex md:hidden items-center gap-2">
             <% unread_count = current_user.notifications.unread.count %>
             <% if unread_count > 0 %>
@@ -77,122 +73,20 @@
                 </span>
               <% end %>
             <% end %>
-
-            <button data-action="click->mobile-menu#toggle" data-mobile-menu-target="hamburger" class="p-2 rounded-lg text-gray-400 hover:text-white transition-colors" aria-label="Open menu">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-              </svg>
-            </button>
           </div>
         <% else %>
-          <!-- Guest: desktop -->
+          <!-- Guest: desktop Sign In + Get Started -->
           <div class="hidden md:flex items-center gap-3">
             <%= link_to "Sign In", new_user_session_path, class: "text-gray-300 hover:text-teal-300 transition-colors font-medium" %>
             <%= link_to "Get Started", new_user_registration_path, class: "px-5 py-2.5 bg-gradient-to-r from-teal-500 to-amber-500 rounded-xl font-semibold text-slate-900 hover:opacity-90 transition-opacity shadow-lg shadow-teal-500/25" %>
           </div>
 
-          <!-- Guest: mobile hamburger -->
-          <button data-action="click->mobile-menu#toggle" data-mobile-menu-target="hamburger" class="md:hidden p-2 rounded-lg text-gray-400 hover:text-white transition-colors" aria-label="Open menu">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-            </svg>
-          </button>
+          <!-- Guest: mobile — just Get Started button (bottom nav has Sign In) -->
+          <div class="flex md:hidden items-center">
+            <%= link_to "Get Started", new_user_registration_path, class: "px-4 py-2 bg-gradient-to-r from-teal-500 to-amber-500 rounded-lg font-semibold text-sm text-slate-900 hover:opacity-90 transition-opacity shadow-lg shadow-teal-500/25" %>
+          </div>
         <% end %>
       </div>
-    </div>
-  </div>
-
-  <!-- Mobile Slide-out Drawer Overlay -->
-  <div data-mobile-menu-target="overlay" data-action="click->mobile-menu#close" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 opacity-0 pointer-events-none transition-opacity duration-300"></div>
-
-  <!-- Mobile Slide-out Drawer -->
-  <div data-mobile-menu-target="drawer" class="fixed top-0 right-0 bottom-0 w-80 max-w-[85vw] bg-slate-950 border-l border-white/10 z-50 transform translate-x-full transition-transform duration-300 ease-in-out overflow-y-auto">
-    <!-- Drawer Header -->
-    <div class="flex items-center justify-between p-4 border-b border-white/10">
-      <span class="text-lg font-semibold gradient-text">Menu</span>
-      <button data-action="click->mobile-menu#close" class="p-2 rounded-lg text-gray-400 hover:text-white transition-colors" aria-label="Close menu">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-        </svg>
-      </button>
-    </div>
-
-    <div class="p-4">
-      <% if user_signed_in? %>
-        <!-- User Profile -->
-        <div class="flex items-center gap-3 p-4 bg-white/5 rounded-2xl mb-6">
-          <div class="w-12 h-12 rounded-full bg-gradient-to-br from-teal-400 to-amber-400 flex items-center justify-center text-slate-900 font-bold text-lg shadow-md">
-            <%= current_user.name&.first&.upcase || current_user.email.first.upcase %>
-          </div>
-          <div class="min-w-0">
-            <div class="font-semibold truncate"><%= current_user.name || "User" %></div>
-            <div class="text-sm text-gray-500 truncate"><%= current_user.email %></div>
-          </div>
-        </div>
-      <% end %>
-
-      <!-- Navigation Links -->
-      <div class="space-y-1 mb-6">
-        <p class="text-xs font-medium text-gray-500 uppercase tracking-wider px-3 mb-2">Navigate</p>
-        <%= link_to search_path, class: "flex items-center gap-3 px-3 py-3 rounded-xl text-gray-300 hover:bg-white/5 hover:text-white transition-all" do %>
-          <span class="text-lg">🔍</span>
-          <span class="font-medium">Find Match</span>
-        <% end %>
-        <%= link_to explore_path, class: "flex items-center gap-3 px-3 py-3 rounded-xl text-gray-300 hover:bg-white/5 hover:text-white transition-all" do %>
-          <span class="text-lg">🌍</span>
-          <span class="font-medium">Explore</span>
-        <% end %>
-        <%= link_to about_path, class: "flex items-center gap-3 px-3 py-3 rounded-xl text-gray-300 hover:bg-white/5 hover:text-white transition-all" do %>
-          <span class="text-lg">ℹ️</span>
-          <span class="font-medium">About</span>
-        <% end %>
-      </div>
-
-      <% if user_signed_in? %>
-        <!-- User Actions -->
-        <div class="space-y-1 mb-6">
-          <p class="text-xs font-medium text-gray-500 uppercase tracking-wider px-3 mb-2">Your Stuff</p>
-          <%= link_to dashboard_path, class: "flex items-center gap-3 px-3 py-3 rounded-xl text-gray-300 hover:bg-white/5 hover:text-white transition-all" do %>
-            <span class="text-lg">📊</span>
-            <span class="font-medium">Dashboard</span>
-          <% end %>
-          <%= link_to my_places_path, class: "flex items-center gap-3 px-3 py-3 rounded-xl text-gray-300 hover:bg-white/5 hover:text-white transition-all" do %>
-            <span class="text-lg">🏠</span>
-            <span class="font-medium">My Home Places</span>
-          <% end %>
-          <%= link_to my_matches_path, class: "flex items-center gap-3 px-3 py-3 rounded-xl text-gray-300 hover:bg-white/5 hover:text-white transition-all" do %>
-            <span class="text-lg">✨</span>
-            <span class="font-medium">My Matches</span>
-          <% end %>
-          <%= link_to favorites_path, class: "flex items-center gap-3 px-3 py-3 rounded-xl text-gray-300 hover:bg-white/5 hover:text-white transition-all" do %>
-            <span class="text-lg">⭐</span>
-            <span class="font-medium">Favorites</span>
-          <% end %>
-          <% unread_count = current_user.notifications.unread.count %>
-          <%= link_to notifications_path, class: "flex items-center gap-3 px-3 py-3 rounded-xl text-gray-300 hover:bg-white/5 hover:text-white transition-all" do %>
-            <span class="text-lg">🔔</span>
-            <span class="font-medium">Notifications</span>
-            <% if unread_count > 0 %>
-              <span class="ml-auto px-2 py-0.5 bg-red-500 text-white text-xs rounded-full font-medium"><%= unread_count %></span>
-            <% end %>
-          <% end %>
-          <%= link_to settings_path, class: "flex items-center gap-3 px-3 py-3 rounded-xl text-gray-300 hover:bg-white/5 hover:text-white transition-all" do %>
-            <span class="text-lg">⚙️</span>
-            <span class="font-medium">Settings</span>
-          <% end %>
-        </div>
-
-        <!-- Sign Out -->
-        <div class="pt-4 border-t border-white/10">
-          <%= button_to "Sign Out", destroy_user_session_path, method: :delete, class: "w-full flex items-center justify-center gap-2 px-4 py-3 bg-white/5 rounded-xl text-gray-400 hover:text-white hover:bg-white/10 transition-all" %>
-        </div>
-      <% else %>
-        <!-- Guest Actions -->
-        <div class="space-y-3 mt-6">
-          <%= link_to "Sign In", new_user_session_path, class: "block w-full text-center px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-gray-300 hover:bg-white/10 transition-all font-medium" %>
-          <%= link_to "Get Started", new_user_registration_path, class: "block w-full text-center px-4 py-3 bg-gradient-to-r from-teal-500 to-amber-500 rounded-xl font-semibold text-slate-900 hover:opacity-90 transition-opacity" %>
-        </div>
-      <% end %>
     </div>
   </div>
 </nav>
