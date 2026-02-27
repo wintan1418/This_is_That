@@ -1,10 +1,52 @@
-<div class="max-w-7xl mx-auto px-4 py-12">
-  <h1 class="text-4xl font-bold mb-2">Welcome back, <%= current_user.name || current_user.email.split('@').first %>! 👋</h1>
-  <p class="text-gray-400 mb-10">Here's an overview of your saved places and matches.</p>
+<div class="max-w-7xl mx-auto px-4 py-8 sm:py-12">
+  <h1 class="text-2xl sm:text-4xl font-bold mb-2">Welcome back, <%= current_user.name || current_user.email.split('@').first %>! 👋</h1>
+  <p class="text-gray-400 mb-8">Here's an overview of your saved places and matches.</p>
+
+  <!-- Quick Actions - horizontal scroll on mobile, sidebar on desktop -->
+  <div class="mb-8 lg:hidden">
+    <div class="flex gap-3 overflow-x-auto pb-2 -mx-4 px-4 scrollbar-hide">
+      <%= link_to search_path, class: "flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-teal-500/20 to-amber-500/20 rounded-xl hover:from-teal-500/30 hover:to-amber-500/30 transition-colors whitespace-nowrap flex-shrink-0" do %>
+        <span>🔍</span>
+        <span class="text-sm font-medium">Find Matches</span>
+      <% end %>
+      <%= link_to new_place_path, class: "flex items-center gap-2 px-4 py-3 bg-white/5 rounded-xl hover:bg-white/10 transition-colors whitespace-nowrap flex-shrink-0" do %>
+        <span>➕</span>
+        <span class="text-sm font-medium">Add Place</span>
+      <% end %>
+      <%= link_to my_places_path, class: "flex items-center gap-2 px-4 py-3 bg-white/5 rounded-xl hover:bg-white/10 transition-colors whitespace-nowrap flex-shrink-0" do %>
+        <span>🏠</span>
+        <span class="text-sm font-medium">Home Places</span>
+      <% end %>
+      <%= link_to my_matches_path, class: "flex items-center gap-2 px-4 py-3 bg-white/5 rounded-xl hover:bg-white/10 transition-colors whitespace-nowrap flex-shrink-0" do %>
+        <span>✨</span>
+        <span class="text-sm font-medium">Matches</span>
+      <% end %>
+      <%= link_to favorites_path, class: "flex items-center gap-2 px-4 py-3 bg-white/5 rounded-xl hover:bg-white/10 transition-colors whitespace-nowrap flex-shrink-0" do %>
+        <span>⭐</span>
+        <span class="text-sm font-medium">Favorites</span>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Stats (visible on mobile, moves to sidebar on desktop) -->
+  <div class="grid grid-cols-3 gap-3 mb-8 lg:hidden">
+    <div class="text-center p-3 bg-white/5 border border-white/10 rounded-xl">
+      <div class="text-2xl font-bold text-teal-400"><%= current_user.home_places.count %></div>
+      <div class="text-xs text-gray-500">Home Places</div>
+    </div>
+    <div class="text-center p-3 bg-white/5 border border-white/10 rounded-xl">
+      <div class="text-2xl font-bold text-amber-400"><%= current_user.matched_places.count %></div>
+      <div class="text-xs text-gray-500">Matches</div>
+    </div>
+    <div class="text-center p-3 bg-white/5 border border-white/10 rounded-xl">
+      <div class="text-2xl font-bold text-rose-400"><%= current_user.reviews.count %></div>
+      <div class="text-xs text-gray-500">Reviews</div>
+    </div>
+  </div>
 
   <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-    <!-- Quick Actions -->
-    <div class="lg:col-span-1">
+    <!-- Desktop Sidebar (hidden on mobile) -->
+    <div class="hidden lg:block lg:col-span-1">
       <div class="p-6 bg-white/5 border border-white/10 rounded-2xl mb-6">
         <h2 class="font-semibold mb-4">Quick Actions</h2>
         <div class="space-y-3">
@@ -35,7 +77,7 @@
         </div>
       </div>
 
-      <!-- Stats -->
+      <!-- Desktop Stats -->
       <div class="p-6 bg-white/5 border border-white/10 rounded-2xl">
         <h2 class="font-semibold mb-4">Your Stats</h2>
         <div class="grid grid-cols-2 gap-4">
@@ -60,14 +102,14 @@
       <!-- Home Places -->
       <div class="mb-8">
         <div class="flex items-center justify-between mb-4">
-          <h2 class="text-xl font-semibold">🏠 Your Home Places</h2>
+          <h2 class="text-lg sm:text-xl font-semibold">🏠 Your Home Places</h2>
           <% if @total_home_places > 6 %>
             <%= link_to "View All", my_places_path, class: "text-teal-400 hover:text-teal-300 text-sm" %>
           <% end %>
         </div>
-        
+
         <% if @home_places.any? %>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <% @home_places.each do |place| %>
               <%= render "places/card", place: place %>
             <% end %>
@@ -83,14 +125,14 @@
       <!-- Matched Places -->
       <div>
         <div class="flex items-center justify-between mb-4">
-          <h2 class="text-xl font-semibold">✨ Your Matches</h2>
+          <h2 class="text-lg sm:text-xl font-semibold">✨ Your Matches</h2>
           <% if @total_matched_places > 6 %>
             <%= link_to "View All", my_matches_path, class: "text-teal-400 hover:text-teal-300 text-sm" %>
           <% end %>
         </div>
-        
+
         <% if @matched_places.any? %>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <% @matched_places.each do |place| %>
               <%= render "places/card", place: place %>
             <% end %>

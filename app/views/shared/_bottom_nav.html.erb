@@ -1,0 +1,49 @@
+<%# Mobile bottom navigation - visible only on small screens %>
+<nav class="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-slate-950/95 backdrop-blur-xl border-t border-white/10 safe-area-bottom">
+  <div class="flex items-center justify-around h-16 px-2">
+    <%
+      current = controller_name
+      home_active = current == "pages" && action_name == "home"
+      search_active = current == "search"
+      explore_active = current == "explore"
+      dashboard_active = current == "dashboard" || current == "settings" || current == "notifications"
+    %>
+
+    <%= link_to root_path, class: "flex flex-col items-center justify-center gap-0.5 px-3 py-2 rounded-xl transition-all min-w-[64px] #{home_active ? 'text-teal-400' : 'text-gray-500 hover:text-gray-300'}" do %>
+      <svg class="w-6 h-6" fill="<%= home_active ? 'currentColor' : 'none' %>" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="<%= home_active ? '0' : '1.5' %>" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+      </svg>
+      <span class="text-[10px] font-medium">Home</span>
+    <% end %>
+
+    <%= link_to search_path, class: "flex flex-col items-center justify-center gap-0.5 px-3 py-2 rounded-xl transition-all min-w-[64px] #{search_active ? 'text-teal-400' : 'text-gray-500 hover:text-gray-300'}" do %>
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="<%= search_active ? '2.5' : '1.5' %>" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+      </svg>
+      <span class="text-[10px] font-medium">Search</span>
+    <% end %>
+
+    <%= link_to explore_path, class: "flex flex-col items-center justify-center gap-0.5 px-3 py-2 rounded-xl transition-all min-w-[64px] #{explore_active ? 'text-teal-400' : 'text-gray-500 hover:text-gray-300'}" do %>
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="<%= explore_active ? '2.5' : '1.5' %>" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+      </svg>
+      <span class="text-[10px] font-medium">Explore</span>
+    <% end %>
+
+    <% if user_signed_in? %>
+      <%= link_to dashboard_path, class: "flex flex-col items-center justify-center gap-0.5 px-3 py-2 rounded-xl transition-all min-w-[64px] #{dashboard_active ? 'text-teal-400' : 'text-gray-500 hover:text-gray-300'}" do %>
+        <div class="w-6 h-6 rounded-full bg-gradient-to-br from-teal-400 to-amber-400 flex items-center justify-center text-slate-900 text-[10px] font-bold <%= dashboard_active ? 'ring-2 ring-teal-400' : '' %>">
+          <%= current_user.name&.first&.upcase || current_user.email.first.upcase %>
+        </div>
+        <span class="text-[10px] font-medium">Me</span>
+      <% end %>
+    <% else %>
+      <%= link_to new_user_session_path, class: "flex flex-col items-center justify-center gap-0.5 px-3 py-2 rounded-xl transition-all min-w-[64px] text-gray-500 hover:text-gray-300" do %>
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+        </svg>
+        <span class="text-[10px] font-medium">Sign In</span>
+      <% end %>
+    <% end %>
+  </div>
+</nav>

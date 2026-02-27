@@ -1,29 +1,33 @@
-<%= link_to place_path(place), class: "block p-4 bg-white/5 border border-white/10 rounded-xl hover:border-teal-500/30 hover:bg-white/10 transition-all group" do %>
-  <div class="flex gap-4">
-    <% if place.image_url.present? %>
-      <img src="<%= place.image_url %>" alt="<%= place.name %>" class="w-16 h-16 rounded-lg object-cover flex-shrink-0">
-    <% else %>
-      <div class="w-16 h-16 rounded-lg bg-gradient-to-br from-teal-500/20 to-amber-500/20 flex items-center justify-center flex-shrink-0">
-        <span class="text-xl"><%= place.category&.icon || "📍" %></span>
-      </div>
-    <% end %>
-    
-    <div class="flex-1 min-w-0">
-      <div class="flex items-center gap-2">
-        <h3 class="font-semibold truncate group-hover:text-teal-400 transition-colors"><%= place.name %></h3>
-        <% if place.respond_to?(:is_favorite) && place.is_favorite %>
-          <span class="text-yellow-400 text-sm">⭐</span>
-        <% end %>
-      </div>
-      <p class="text-sm text-gray-400 truncate"><%= place.city %></p>
-      <div class="flex items-center gap-2 mt-1 text-sm">
-        <% if place.rating %>
-          <span class="text-yellow-400">★ <%= place.rating %></span>
-        <% end %>
-        <% if place.category %>
-          <span class="text-gray-500"><%= place.category.name %></span>
-        <% end %>
-      </div>
+<%= link_to place_path(place), class: "block bg-white/5 border border-white/10 rounded-2xl overflow-hidden hover:border-teal-500/30 hover:bg-white/[0.07] transition-all group" do %>
+  <!-- Image -->
+  <% if place.image_url.present? %>
+    <div class="relative h-40 overflow-hidden">
+      <img src="<%= place.image_url %>" alt="<%= place.name %>" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+      <% if place.respond_to?(:is_favorite) && place.is_favorite %>
+        <span class="absolute top-3 right-3 w-8 h-8 bg-black/50 backdrop-blur-sm rounded-full flex items-center justify-center text-yellow-400 text-sm">⭐</span>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="relative h-40 bg-gradient-to-br from-teal-500/20 to-amber-500/20 flex items-center justify-center">
+      <span class="text-4xl"><%= place.category&.icon || "📍" %></span>
+      <% if place.respond_to?(:is_favorite) && place.is_favorite %>
+        <span class="absolute top-3 right-3 w-8 h-8 bg-black/50 backdrop-blur-sm rounded-full flex items-center justify-center text-yellow-400 text-sm">⭐</span>
+      <% end %>
+    </div>
+  <% end %>
+
+  <!-- Content -->
+  <div class="p-4">
+    <h3 class="font-semibold text-base truncate group-hover:text-teal-400 transition-colors mb-1"><%= place.name %></h3>
+    <p class="text-sm text-gray-400 truncate mb-3"><%= place.city %></p>
+
+    <div class="flex items-center gap-2 flex-wrap">
+      <% if place.rating %>
+        <span class="inline-flex items-center gap-1 px-2 py-1 bg-yellow-500/10 text-yellow-400 text-xs font-medium rounded-lg">★ <%= place.rating %></span>
+      <% end %>
+      <% if place.category %>
+        <span class="inline-flex items-center gap-1 px-2 py-1 bg-white/5 text-gray-400 text-xs font-medium rounded-lg"><%= place.category.icon %> <%= place.category.name %></span>
+      <% end %>
     </div>
   </div>
 <% end %>

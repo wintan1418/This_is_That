@@ -1,76 +1,73 @@
-<div class="max-w-4xl mx-auto px-4 py-12">
+<div class="max-w-4xl mx-auto px-4 py-8 sm:py-12">
   <!-- Back Link -->
-  <a href="#" onclick="history.back(); return false;" class="text-gray-400 hover:text-white mb-6 inline-block transition-colors">← Back</a>
+  <a href="#" onclick="history.back(); return false;" class="inline-flex items-center gap-1 text-gray-400 hover:text-white mb-6 transition-colors py-2">
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+    Back
+  </a>
 
-  <div class="bg-white/5 border border-white/10 rounded-3xl overflow-hidden">
+  <div class="bg-white/5 border border-white/10 rounded-2xl sm:rounded-3xl overflow-hidden">
     <!-- Header Image -->
     <% if @place.image_url.present? %>
-      <div class="h-64 bg-cover bg-center" style="background-image: url('<%= @place.image_url %>')"></div>
+      <div class="h-48 sm:h-64 bg-cover bg-center" style="background-image: url('<%= @place.image_url %>')"></div>
     <% else %>
-      <div class="h-64 bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center">
-        <span class="text-8xl"><%= @place.category&.icon || "📍" %></span>
+      <div class="h-48 sm:h-64 bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center">
+        <span class="text-6xl sm:text-8xl"><%= @place.category&.icon || "📍" %></span>
       </div>
     <% end %>
 
     <!-- Content -->
-    <div class="p-8">
+    <div class="p-5 sm:p-8">
       <!-- Title & Actions -->
-      <div class="flex items-start justify-between gap-4 mb-6">
-        <div>
-          <h1 class="text-3xl font-bold mb-2"><%= @place.name %></h1>
-          <p class="text-gray-400"><%= @place.full_address %></p>
-        </div>
-        
-        <div class="flex items-center gap-2">
-          <!-- Share Button -->
-          <button onclick="navigator.share ? navigator.share({title: '<%= j @place.name %>', url: window.location.href}) : navigator.clipboard.writeText(window.location.href).then(() => alert('Link copied!'))" 
-                  class="p-2 bg-white/5 rounded-lg hover:bg-white/10 transition-colors" title="Share">
+      <div class="mb-6">
+        <h1 class="text-2xl sm:text-3xl font-bold mb-2"><%= @place.name %></h1>
+        <p class="text-gray-400 text-sm sm:text-base"><%= @place.full_address %></p>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-wrap items-center gap-2 mt-4">
+          <button onclick="navigator.share ? navigator.share({title: '<%= j @place.name %>', url: window.location.href}) : navigator.clipboard.writeText(window.location.href).then(() => alert('Link copied!'))"
+                  class="p-2.5 bg-white/5 rounded-xl hover:bg-white/10 transition-colors" title="Share">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/>
             </svg>
           </button>
-          
-          <!-- Favorite Button (only for own places) -->
+
           <% if user_signed_in? && @place.user == current_user %>
             <%= render "places/favorite_button", place: @place %>
-          <% end %>
-          
-          <% if user_signed_in? && @place.user == current_user %>
-            <%= link_to "Edit", edit_place_path(@place), class: "px-4 py-2 bg-white/10 rounded-lg hover:bg-white/20 transition-colors" %>
-            <%= button_to "Delete", place_path(@place), method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "px-4 py-2 bg-red-500/20 text-red-400 rounded-lg hover:bg-red-500/30 transition-colors" %>
+            <%= link_to "Edit", edit_place_path(@place), class: "px-4 py-2.5 bg-white/10 rounded-xl hover:bg-white/20 transition-colors text-sm font-medium" %>
+            <%= button_to "Delete", place_path(@place), method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "px-4 py-2.5 bg-red-500/20 text-red-400 rounded-xl hover:bg-red-500/30 transition-colors text-sm font-medium" %>
           <% end %>
         </div>
       </div>
 
       <!-- Info Grid -->
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-8">
         <% if @place.rating %>
-          <div class="p-4 bg-white/5 rounded-xl text-center">
-            <div class="text-2xl font-bold text-yellow-400">★ <%= @place.rating %></div>
-            <div class="text-sm text-gray-500">Rating</div>
+          <div class="p-3 sm:p-4 bg-white/5 rounded-xl text-center">
+            <div class="text-xl sm:text-2xl font-bold text-yellow-400">★ <%= @place.rating %></div>
+            <div class="text-xs sm:text-sm text-gray-500">Rating</div>
           </div>
         <% end %>
         <% if @place.price %>
-          <div class="p-4 bg-white/5 rounded-xl text-center">
-            <div class="text-2xl font-bold text-green-400"><%= @place.price %></div>
-            <div class="text-sm text-gray-500">Price</div>
+          <div class="p-3 sm:p-4 bg-white/5 rounded-xl text-center">
+            <div class="text-xl sm:text-2xl font-bold text-green-400"><%= @place.price %></div>
+            <div class="text-xs sm:text-sm text-gray-500">Price</div>
           </div>
         <% end %>
         <% if @place.category %>
-          <div class="p-4 bg-white/5 rounded-xl text-center">
-            <div class="text-2xl font-bold"><%= @place.category.icon %></div>
-            <div class="text-sm text-gray-500"><%= @place.category.name %></div>
+          <div class="p-3 sm:p-4 bg-white/5 rounded-xl text-center">
+            <div class="text-xl sm:text-2xl font-bold"><%= @place.category.icon %></div>
+            <div class="text-xs sm:text-sm text-gray-500"><%= @place.category.name %></div>
           </div>
         <% end %>
-        <div class="p-4 bg-white/5 rounded-xl text-center">
-          <div class="text-2xl font-bold text-purple-400"><%= @place.yelp_reviews_count || @place.reviews.count %></div>
-          <div class="text-sm text-gray-500"><%= @place.yelp_reviews_count ? "Yelp Reviews" : "Reviews" %></div>
+        <div class="p-3 sm:p-4 bg-white/5 rounded-xl text-center">
+          <div class="text-xl sm:text-2xl font-bold text-purple-400"><%= @place.yelp_reviews_count || @place.reviews.count %></div>
+          <div class="text-xs sm:text-sm text-gray-500"><%= @place.yelp_reviews_count ? "Yelp Reviews" : "Reviews" %></div>
         </div>
       </div>
 
       <!-- Map -->
       <% if @place.latitude.present? && @place.longitude.present? %>
-        <div class="h-64 w-full bg-slate-900 rounded-xl overflow-hidden mb-8 border border-white/10 relative z-0"
+        <div class="h-48 sm:h-64 w-full bg-slate-900 rounded-xl overflow-hidden mb-8 border border-white/10 relative z-0"
              data-controller="map"
              data-map-latitude-value="<%= @place.latitude %>"
              data-map-longitude-value="<%= @place.longitude %>"
@@ -80,14 +77,14 @@
 
       <!-- External Links -->
       <% if @place.url.present? || @place.phone.present? %>
-        <div class="flex gap-4 mb-8">
+        <div class="flex flex-wrap gap-3 mb-8">
           <% if @place.url %>
-            <%= link_to @place.url, target: "_blank", class: "px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg hover:opacity-90 transition-opacity" do %>
+            <%= link_to @place.url, target: "_blank", class: "px-4 py-2.5 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl hover:opacity-90 transition-opacity text-sm font-medium" do %>
               View on Yelp →
             <% end %>
           <% end %>
           <% if @place.phone %>
-            <%= link_to "tel:#{@place.phone}", class: "px-4 py-2 bg-white/10 rounded-lg hover:bg-white/20 transition-colors" do %>
+            <%= link_to "tel:#{@place.phone}", class: "px-4 py-2.5 bg-white/10 rounded-xl hover:bg-white/20 transition-colors text-sm" do %>
               📞 <%= @place.phone %>
             <% end %>
           <% end %>
@@ -98,33 +95,33 @@
 
   <!-- Reviews Section -->
   <div class="mt-8">
-    <h2 class="text-2xl font-bold mb-6">Reviews (<%= @place.reviews.count %>)</h2>
-    
+    <h2 class="text-xl sm:text-2xl font-bold mb-6">Reviews (<%= @place.reviews.count %>)</h2>
+
     <!-- Add Review Form -->
     <% if user_signed_in? %>
-      <div class="p-6 bg-white/5 border border-white/10 rounded-2xl mb-6">
+      <div class="p-5 sm:p-6 bg-white/5 border border-white/10 rounded-2xl mb-6">
         <h3 class="font-semibold mb-4">Write a Review</h3>
         <%= form_with model: @review, url: place_reviews_path(@place), class: "space-y-4", data: { controller: "loading", action: "submit->loading#submit", loading_text_value: "Submitting..." } do |f| %>
           <div data-controller="rating">
             <label class="block text-sm text-gray-400 mb-2">Rating</label>
-            <div class="flex gap-1">
+            <div class="flex gap-2">
               <% (1..5).each do |n| %>
                 <label class="cursor-pointer">
                   <%= f.radio_button :rating, n, class: "hidden" %>
-                  <span data-rating-target="star" 
-                        data-value="<%= n %>" 
+                  <span data-rating-target="star"
+                        data-value="<%= n %>"
                         data-action="click->rating#select mouseenter->rating#hover mouseleave->rating#reset"
-                        class="text-2xl text-gray-500 transition-all cursor-pointer hover:scale-110">★</span>
+                        class="text-3xl sm:text-2xl text-gray-500 transition-all cursor-pointer hover:scale-110 inline-block p-1">★</span>
                 </label>
               <% end %>
             </div>
           </div>
           <div>
             <label class="block text-sm text-gray-400 mb-2">Your Review</label>
-            <%= f.text_area :content, rows: 3, placeholder: "Share your experience...", class: "w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500" %>
+            <%= f.text_area :content, rows: 3, placeholder: "Share your experience...", class: "w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 text-base" %>
           </div>
-          
-          <button type="submit" data-loading-target="button" class="px-6 py-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg cursor-pointer hover:opacity-90 transition-opacity flex items-center gap-2">
+
+          <button type="submit" data-loading-target="button" class="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl cursor-pointer hover:opacity-90 transition-opacity flex items-center gap-2 font-medium">
             <span data-loading-target="text">Submit Review</span>
             <svg data-loading-target="spinner" class="animate-spin hidden" style="width: 16px; height: 16px;" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
               <circle style="opacity: 0.25;" cx="12" cy="12" r="10" stroke="#ffffff" stroke-width="4"></circle>
@@ -139,21 +136,21 @@
     <% if @reviews.any? %>
       <div class="space-y-4">
         <% @reviews.each do |review| %>
-          <div class="p-6 bg-white/5 border border-white/10 rounded-2xl">
-            <div class="flex items-center justify-between mb-3">
+          <div class="p-5 sm:p-6 bg-white/5 border border-white/10 rounded-2xl">
+            <div class="flex items-start justify-between mb-3 gap-3">
               <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center font-semibold">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center font-semibold flex-shrink-0">
                   <%= review.user.name&.first&.upcase || review.user.email.first.upcase %>
                 </div>
-                <div>
-                  <div class="font-medium"><%= review.user.name || review.user.email.split('@').first %></div>
+                <div class="min-w-0">
+                  <div class="font-medium truncate"><%= review.user.name || review.user.email.split('@').first %></div>
                   <div class="text-sm text-gray-500"><%= time_ago_in_words(review.created_at) %> ago</div>
                 </div>
               </div>
-              <div class="text-yellow-400"><%= review.rating_stars %></div>
+              <div class="text-yellow-400 flex-shrink-0"><%= review.rating_stars %></div>
             </div>
             <p class="text-gray-300 mb-4"><%= review.content %></p>
-            
+
             <!-- Vote Buttons -->
             <%= render "reviews/vote_buttons", review: review, place: @place %>
           </div>

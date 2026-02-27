@@ -1,12 +1,12 @@
-<div class="max-w-6xl mx-auto px-4 py-12">
-  <h1 class="text-4xl font-bold text-center mb-4">Find Your Match</h1>
-  <p class="text-gray-400 text-center mb-10 max-w-xl mx-auto">
+<div class="max-w-6xl mx-auto px-4 py-8 sm:py-12">
+  <h1 class="text-2xl sm:text-4xl font-bold text-center mb-3 sm:mb-4">Find Your Match</h1>
+  <p class="text-gray-400 text-center mb-8 sm:mb-10 max-w-xl mx-auto text-sm sm:text-base">
     Tell us what you love back home and where you're going — we'll find similar spots!
   </p>
 
   <!-- Search Form -->
-  <div class="max-w-3xl mx-auto mb-16">
-    <%= form_with url: search_find_matches_path, method: :post, id: "search-form", data: { turbo: false, controller: "loading", action: "submit->loading#submit" }, class: "p-8 bg-slate-900/50 border border-teal-500/20 rounded-3xl" do |f| %>
+  <div class="max-w-3xl mx-auto mb-10 sm:mb-16">
+    <%= form_with url: search_find_matches_path, method: :post, id: "search-form", data: { turbo: false, controller: "loading", action: "submit->loading#submit" }, class: "p-5 sm:p-8 bg-slate-900/50 border border-teal-500/20 rounded-2xl sm:rounded-3xl" do |f| %>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         <!-- Home City -->
         <div>
@@ -29,11 +29,13 @@
 
       <!-- Category -->
       <div class="mb-6">
-        <label class="block text-sm font-medium text-gray-300 mb-2">📂 Category</label>
-        <%= f.select :category, 
-            @categories.map { |c| ["#{c.icon} #{c.name}", c.yelp_alias] },
-            { include_blank: "Select a category..." },
-            class: "w-full px-4 py-3 bg-slate-800 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent" %>
+        <%= render "shared/custom_dropdown",
+            form: f,
+            field: :category,
+            options: @categories.map { |c| ["#{c.icon} #{c.name}", c.yelp_alias] },
+            selected: params[:category],
+            blank: "Select a category...",
+            label: "📂 Category" %>
       </div>
 
       <!-- Or search text -->

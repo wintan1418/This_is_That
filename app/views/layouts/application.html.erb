@@ -47,13 +47,18 @@
     <%= render "shared/flash" %>
 
     <!-- Main Content -->
-    <main class="min-h-screen pt-20">
+    <main class="min-h-screen pt-20 pb-20 md:pb-0">
       <%= yield %>
     </main>
 
-    <!-- Footer -->
-    <%= render "shared/footer" %>
-    
+    <!-- Footer (hidden on mobile where bottom nav takes over) -->
+    <div class="hidden md:block">
+      <%= render "shared/footer" %>
+    </div>
+
+    <!-- Mobile Bottom Navigation -->
+    <%= render "shared/bottom_nav" %>
+
     <!-- PWA Install Banner -->
     <%= render "shared/pwa_install" %>
   </body>
